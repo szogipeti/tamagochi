@@ -11,15 +11,20 @@
                 <error-message name="password" />
             </div>
             <button type="submit" class="btn btn-primary my-2">Bejelentkezés</button>
+            <p class="alert alert-danger" v-if="error">{{error}}</p>
         </Form>
         <h5>Nincs még fiókod? <router-link to="/register">Regisztrálj itt!</router-link></h5>
     </div>
 </template>
 
 <script setup>
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
 import {Form, Field, ErrorMessage} from "vee-validate"
 import {http} from "../utils/http.js"
 import * as yup from "yup"
+
+const router = useRouter();
 
 const schema = yup.object({
     email: yup.string()
@@ -33,8 +38,16 @@ const schema = yup.object({
         .required('A jelszó megadása kötelező!'),
 });
 
-const login = async function(){
+const error = ref('')
 
+const login = async function(userData){
+    try {
+        const resp = await http.post('login', userData);
+        localStorage.setItem('token', resp.data.token);
+        router.push({name: 'index'})
+    } catch (e){
+        error.value = e.response.data.data.message;
+    }
 }
 
 </script>
