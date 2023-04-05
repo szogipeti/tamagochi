@@ -25,4 +25,4 @@ Route::controller(\App\Http\Controllers\AuthController::class)->group(function (
     Route::middleware(["auth:sanctum"])->post('/logout','logout')->name('auth.logout');
 });
 
-Route::get('/users/{id}', [\App\Http\Controllers\FelhasznaloController::class, 'show'])->name('users.show');
+Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');

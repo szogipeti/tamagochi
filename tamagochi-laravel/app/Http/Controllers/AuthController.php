@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BejelentkezoRequest;
-use App\Http\Requests\RegisztracioRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\AuthResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login(BejelentkezoRequest $request)
+    public function login(LoginRequest $request)
     {
         $data = $request->only('email', 'password');
         if (Auth::attempt($data)) {
@@ -24,7 +24,7 @@ class AuthController extends Controller
     }
 
 
-    public function register(RegisztracioRequest $request):JsonResponse
+    public function register(RegisterRequest $request):JsonResponse
     {
         $data = $request->validated();
         $data["password"] = Hash::make($data["password"]);
