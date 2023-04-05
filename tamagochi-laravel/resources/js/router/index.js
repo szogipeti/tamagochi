@@ -18,6 +18,15 @@ const routes = [
             title: "Bejelentkezés",
             requiesAuth: false
         }
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: () => import('@/pages/RegisterPage.vue'),
+        meta: {
+            title: "Regisztráció",
+            requiesAuth: false
+        }
     }
 ]
 
