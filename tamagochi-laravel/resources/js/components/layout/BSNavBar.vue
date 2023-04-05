@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Tamagochi</a>
+      <router-link class="navbar-brand" to="/">Tamagochi</router-link>
         <div class="d-flex order-lg-1 justify-content-end align-items-center">
             <div class="d-flex align-items-center ms-auto ms-md-0">
-                <router-link v-if="true" to="" class="nav-link mx-2" >Login</router-link>
+                <router-link v-if="true" to="/login" class="nav-link mx-2" >Login</router-link>
                 <router-link v-else to="" class="d-flex justify-content-end align-items-center">
                     <p class="ms-1 my-auto me-2">Your profile</p> <!--TODO: Replace with username-->
                     <font-awesome-icon class="mx-2" :icon="['fas', 'fa-circle-user']" size="2xl" />
