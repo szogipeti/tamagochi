@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('animals', function (Blueprint $table) {
+        Schema::create('animal_stat', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("animals_id")->constrained("animals","id");
             $table->string("Név",25);
             $table->integer("Éhség");
             $table->integer("Szomjúság");
