@@ -9,10 +9,23 @@
 </template>
 <script setup>
 import {http} from '@/utils/http.js'
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
+import {useAnimalStore} from "../store/animal.js";
+import {useRouter} from "vue-router";
 
 const selectedAnimal = ref();
 const animals = reactive([]);
+const animal = useAnimalStore();
+const router = useRouter();
+
+watch(
+    () => animal.animalId,
+    (animalId) => {
+        if(animalId !== null){
+            router.push({name: 'index'})
+        }
+    }
+)
 
 const getAnimals = async function(){
     const resp = await http.get('/animals')
@@ -23,9 +36,13 @@ const getAnimals = async function(){
 
 const selectAnimal = function(){
     console.log(selectedAnimal.value)
+    animal.setAnimal(selectedAnimal.value)
 }
 
 onMounted(() => {
+    if(animal.animalId !== null){
+        router.push({name: 'index'})
+    }
     getAnimals();
 })
 </script>
