@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Animal_stat extends Model
 {
-    protected $fillable = ['animals_id', 'Név', 'Éhség', 'Szomjúság', 'Jókedv','Mozgás','Egészség','Ügyesség'];
+    protected $fillable = ['animal_id', 'name', 'hunger', 'thirst', 'happiness','activity','health','dexterity'];
 
     public $timestamps = false;
     public function animal(){
-        return $this->belongsTo(Animal::class, 'animals_id',"id",);
+        return $this->hasOne(Animal::class, 'animal_id',"id",);
     }
 }
