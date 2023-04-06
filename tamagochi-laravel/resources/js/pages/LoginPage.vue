@@ -23,8 +23,10 @@ import {useRouter} from 'vue-router'
 import {Form, Field, ErrorMessage} from "vee-validate"
 import {http} from "../utils/http.js"
 import * as yup from "yup"
+import {useLoggedInStore} from "../store/isLoggedIn";
 
 const router = useRouter();
+const loggedIn = useLoggedInStore();
 
 const schema = yup.object({
     email: yup.string()
@@ -44,6 +46,7 @@ const login = async function(userData){
     try {
         const resp = await http.post('login', userData);
         localStorage.setItem('token', resp.data.token);
+        loggedIn.triggerLoggedIn();
         router.push({name: 'index'})
     } catch (e){
         error.value = e.response.data.data.message;

@@ -4,7 +4,7 @@
       <router-link class="navbar-brand" to="/">Tamagochi</router-link>
         <div class="d-flex order-lg-1 justify-content-end align-items-center">
             <div class="d-flex align-items-center ms-auto ms-md-0">
-                <router-link v-if="true" to="/login" class="nav-link mx-2" >Login</router-link>
+                <router-link v-if="!loggedIn.isLoggedIn" to="/login" class="nav-link mx-2" >Login</router-link>
                 <router-link v-else to="" class="d-flex justify-content-end align-items-center">
                     <p class="ms-1 my-auto me-2">Your profile</p> <!--TODO: Replace with username-->
                     <font-awesome-icon class="mx-2" :icon="['fas', 'fa-circle-user']" size="2xl" />
@@ -46,4 +46,14 @@
 </template>
 <script setup>
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {useLoggedInStore} from "../../store/isLoggedIn";
+
+const loggedIn = useLoggedInStore();
 </script>
+
+<style scoped>
+a, a:link, a:visited, a:hover, a:active{
+    text-decoration: none;
+    color: black;
+}
+</style>
