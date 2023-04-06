@@ -6,7 +6,7 @@
             <div class="d-flex align-items-center ms-auto ms-md-0">
                 <router-link v-if="!loggedIn.isLoggedIn" to="/login" class="nav-link mx-2" >Login</router-link>
                 <router-link v-else to="" class="d-flex justify-content-end align-items-center">
-                    <p class="ms-1 my-auto me-2">Your profile</p> <!--TODO: Replace with username-->
+                    <p class="ms-1 my-auto me-2">{{loggedIn.username}}</p>
                     <font-awesome-icon class="mx-2" :icon="['fas', 'fa-circle-user']" size="2xl" />
                 </router-link>
             </div>
