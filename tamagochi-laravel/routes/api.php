@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\AnimalStatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,5 +30,8 @@ Route::controller(AuthController::class)->group(function (){
 });
 
 Route::get('/animals', [AnimalController::class, 'index'])->name('animals.index');
+Route::get('/animals/stats/{id}', [AnimalStatController::class, 'show'])->whereNumber('id')->name('animals.stats.show');
+
+Route::post('/animals/stats', [AnimalStatController::class, 'store'])->name('animals.stats.store');
 
 Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');

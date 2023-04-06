@@ -7,7 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Animal_stat extends Model
 {
-    protected $fillable = ['animal_id', 'name', 'hunger', 'thirst', 'happiness','activity','health','dexterity'];
+    protected $fillable = ['user_id', 'animal_id', 'name', 'hunger', 'thirst', 'happiness','activity','health','dexterity'];
+    protected $attributes = [
+        'hunger' => 100,
+        'thirst' => 100,
+        'happiness' => 100,
+        'activity' => 100,
+        'health' => 100,
+        'dexterity' => 100
+    ];
 
     public $timestamps = false;
     public function animal(){

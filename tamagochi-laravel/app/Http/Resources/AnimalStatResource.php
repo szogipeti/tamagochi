@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AuthResource extends JsonResource
+class AnimalStatResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,13 @@ class AuthResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
-            'token' => $this->createToken('authToken')->plainTextToken
+            'user_id' => $this->user_id,
+            'hunger' => $this->hunger,
+            'thirst' => $this->thirst,
+            'happiness' => $this->happiness,
+            'activity' => $this->activity,
+            'health' => $this->health,
+            'dexterity' => $this->dexterity
         ];
     }
 }

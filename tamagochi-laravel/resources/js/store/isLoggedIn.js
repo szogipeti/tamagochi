@@ -4,16 +4,16 @@ export const useLoggedInStore = defineStore('isLoggedIn', {
     state(){
         return{
             isLoggedIn: localStorage.getItem('token') !== null,
-            username: localStorage.getItem('username')??''
+            username: localStorage.getItem('username')??'',
+            user_id: localStorage.getItem('user_id')
         }
     },
     actions:{
-        login(token, username){
+        login(token, username, user_id){
             this.isLoggedIn = true;
             localStorage.setItem('token', token);
-            this.setUsername(username)
-        },
-        setUsername(username){
+            this.user_id = user_id;
+            localStorage.setItem('user_id', user_id)
             this.username = username;
             localStorage.setItem('username', username)
         }

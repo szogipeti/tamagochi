@@ -45,7 +45,7 @@ const error = ref('')
 const login = async function(userData){
     try {
         const resp = await http.post('login', userData);
-        loggedIn.login(resp.data.token, resp.data.username)
+        loggedIn.login(resp.data.token, resp.data.username, resp.data.id)
         router.push({name: 'animal_select'})
     } catch (e){
         error.value = e.response.data.data.message;
