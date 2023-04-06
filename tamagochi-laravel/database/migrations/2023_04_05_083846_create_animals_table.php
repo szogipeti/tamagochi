@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('animals', function (Blueprint $table) {
             $table->id();
-            $table->string("Név");
+            $table->string("name");
         });
     }
 

@@ -11,6 +11,6 @@ class Animal_stat extends Model
 
     public $timestamps = false;
     public function animal(){
-        return $this->belongsTo(Animals::class, 'animals_id',"id",);
+        return $this->belongsTo(Animal::class, 'animals_id',"id",);
     }
 }
