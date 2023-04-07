@@ -70,10 +70,15 @@ const timer = function () {
 watch(countDown, (newCountDown) => {
     if (newCountDown <= 0) {
         age.value++;
+        emit('loseStats')
         countDown.value = 60;
         timer();
     }
 })
+
+const emit = defineEmits([
+    'loseStats'
+])
 
 onMounted(() => {
     timer();

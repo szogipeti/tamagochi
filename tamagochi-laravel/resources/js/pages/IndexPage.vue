@@ -6,7 +6,7 @@
     <div class="container" v-else>
         <div class="row">
             <div class="col-3">
-                <stat-box v-if="animalLoaded" :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
+                <stat-box @lose-stats="loseStats" v-if="animalLoaded" :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
                           :happiness="animal.happiness" :activity="animal.activity" :health="animal.health"
                           :dexterity="animal.dexterity" :created_at="animal.created_at"/>
             </div>
@@ -37,6 +37,25 @@ const getAnimal = async function () {
     animalLoaded.value = true;
     console.log(resp)
     console.log(animal)
+}
+
+const loseStats = function (){
+    animal.hunger--;
+    animal.thirst--;
+    animal.happiness--;
+    animal.activity--;
+    animal.health--;
+    animal.dexterity--;
+
+    const body = {
+        'hunger': animal.hunger,
+        'thirst': animal.thirst,
+        'happiness': animal.happiness,
+        'activity': animal.activity,
+        'health': animal.health,
+        'dexterity': animal.dexterity
+    }
+    http.put(`/animals/stats/${animalStore.animalId}/update`, body)
 }
 
 onMounted(() => {
