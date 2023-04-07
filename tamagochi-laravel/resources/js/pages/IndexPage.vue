@@ -3,19 +3,53 @@
         <h2 class="card-title my-1">Jelentkezz be, hogy megnézd a háziállatod!</h2>
         <router-link class="btn btn-primary mx-auto my-1" to="/login">Bejelentkezés</router-link>
     </div>
+    <div class="container" v-else>
+        <div class="row">
+            <div class="col-3">
+                <stat-box v-if="animalLoaded" :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
+                          :happiness="animal.happiness" :activity="animal.activity" :health="animal.health"
+                          :dexterity="animal.dexterity" :created_at="animal.created_at"/>
+            </div>
+            <div class="col-9"></div>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import {RouterLink} from 'vue-router';
 import {useLoggedInStore} from "../store/isLoggedIn";
+import {useAnimalStore} from "../store/animal";
+import StatBox from "../components/StatBox.vue";
+import {http} from "../utils/http";
+import {onMounted, reactive, ref} from "vue";
 
 const loggedIn = useLoggedInStore();
+const animalStore = useAnimalStore();
+
+const animal = reactive({});
+const animalLoaded = ref(false)
+
+const getAnimal = async function () {
+    const resp = await http.get(`/animals/stats/${animalStore.animalId}`)
+    for (const key in resp.data.data) {
+        animal[key] = resp.data.data[key]
+    }
+    animalLoaded.value = true;
+    console.log(resp)
+    console.log(animal)
+}
+
+onMounted(() => {
+    getAnimal();
+})
+
 </script>
 <style scoped>
-.card{
+.card {
     width: 700px;
 }
-router-link{
+
+router-link {
     width: 20em;
 }
 </style>

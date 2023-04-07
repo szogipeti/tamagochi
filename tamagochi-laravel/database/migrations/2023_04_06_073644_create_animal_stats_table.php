@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer("activity");
             $table->integer("health");
             $table->integer("dexterity");
+            $table->timestamp('created_at');
         });
     }
 

@@ -18,6 +18,15 @@ class Animal_stat extends Model
     ];
 
     public $timestamps = false;
+
+    public static function boot(){
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->created_at = $model->freshTimestamp();
+        });
+    }
+
     public function animal(){
         return $this->hasOne(Animal::class, 'animal_id',"id",);
     }
