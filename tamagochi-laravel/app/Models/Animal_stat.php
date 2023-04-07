@@ -24,6 +24,12 @@ class Animal_stat extends Model
 
         static::creating(function ($model) {
             $model->created_at = $model->freshTimestamp();
+            $model->last_hunger = $model->created_at;
+            $model->last_thirst = $model->created_at;
+            $model->last_happiness = $model->created_at;
+            $model->last_activity = $model->created_at;
+            $model->last_health = $model->created_at;
+            $model->last_dexterity = $model->created_at;
         });
     }
 

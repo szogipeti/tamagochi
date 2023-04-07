@@ -34,9 +34,17 @@ const getAnimal = async function () {
     for (const key in resp.data.data) {
         animal[key] = resp.data.data[key]
     }
+    updateStatsLastState();
     animalLoaded.value = true;
     console.log(resp)
     console.log(animal)
+}
+
+const updateStatsLastState = function (){
+    const iteration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 30));
+    if(animal.hunger - iteration > 0){
+        animal.hunger -= iteration;
+    }
 }
 
 const loseStats = function (){
@@ -61,6 +69,8 @@ const loseStats = function (){
 onMounted(() => {
     getAnimal();
 })
+
+
 
 </script>
 <style scoped>
