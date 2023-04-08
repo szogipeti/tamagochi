@@ -1,5 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export const http = axios.create({
-    baseURL: 'http://localhost:8881/api'
+  baseURL: `${import.meta.env.VITE_LARAVEL_URL}/api`
 })

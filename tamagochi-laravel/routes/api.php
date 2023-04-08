@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\AnimalStatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +22,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(\App\Http\Controllers\AuthController::class)->group(function (){
+Route::controller(AuthController::class)->group(function (){
     Route::post('/login', 'login')->name('auth.login');
     Route::post('/register', 'register')->name('auth.register');
     Route::middleware(["auth:sanctum"])->get('/profile', 'profile')->name('auth.profile');
     Route::middleware(["auth:sanctum"])->post('/logout','logout')->name('auth.logout');
 });
 
-Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
+Route::get('/animals', [AnimalController::class, 'index'])->name('animals.index');
+Route::get('/animals/stats/{id}', [AnimalStatController::class, 'show'])->whereNumber('id')->name('animals.stats.show');
+
+Route::post('/animals/stats', [AnimalStatController::class, 'store'])->name('animals.stats.store');
+Route::put('/animals/stats/{id}/update', [AnimalStatController::class, 'update'])->whereNumber('id')->name('animals.stats.update');
+
+Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');

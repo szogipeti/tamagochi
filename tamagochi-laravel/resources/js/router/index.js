@@ -1,4 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
+import {authGuard} from "./guards/AuthGuard.js";
 
 const routes = [
     {
@@ -7,7 +8,7 @@ const routes = [
         component: () => import('@/pages/IndexPage.vue'),
         meta: {
             title: "Főoldal",
-            requiesAuth: false
+            requriesAuth: false
         }
     },
     {
@@ -16,7 +17,7 @@ const routes = [
         component: () => import('@/pages/LoginPage.vue'),
         meta: {
             title: "Bejelentkezés",
-            requiesAuth: false
+            requiresAuth: false
         }
     },
     {
@@ -25,7 +26,16 @@ const routes = [
         component: () => import('@/pages/RegisterPage.vue'),
         meta: {
             title: "Regisztráció",
-            requiesAuth: false
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/animals/select',
+        name: 'animal_select',
+        component: () => import('@/pages/AnimalSelectionPage.vue'),
+        meta:{
+            title: "Válaszd ki a háziállatodat",
+            requiresAuth: true
         }
     },
     {
@@ -42,3 +52,4 @@ export const router = createRouter({
   history: createWebHashHistory(),
   routes
 });
+router.beforeEach(authGuard);

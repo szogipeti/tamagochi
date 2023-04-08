@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Animals extends Model
+class Animal extends Model
 {
-    use HasFactory;
-    protected $fillable = ['Név',];
+    protected $fillable = ['name',];
     public $timestamps = false;
     public function animal(){
         return $this->hasMany(Animal_stat::class,"animals_id",);

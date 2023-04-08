@@ -15,20 +15,28 @@
                 <error-message name="password" />
             </div>
             <div class="form-group">
-                <Field class="form-control" type="password" placeholder="Jelszó megerősítése" name="password_confirm" />
-                <error-message name="password_confirm" />
+                <Field class="form-control" type="password" placeholder="Jelszó megerősítése" name="password_confirmation" />
+                <error-message name="password_confirmation" />
             </div>
             <button type="submit" class="my-2 btn btn-primary">Regisztráció</button>
+            <div class="alert alert-danger" v-if="hasError">
+                <div v-for="(value, key) in errors" :key="key">
+                    <p class="my-auto" v-for="error in value" :key="error">{{error}}</p>
+                </div>
+            </div>
         </Form>
         <h5>Van már fiókod? <router-link to="/login">Jelentkezz be itt!</router-link></h5>
     </div>
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {reactive, ref} from 'vue'
+import {useRouter} from "vue-router";
 import {http} from '../utils/http'
 import {Form, Field, ErrorMessage} from "vee-validate";
 import * as yup from "yup";
+
+const router = useRouter();
 
 const schema = yup.object({
     username: yup.string()
@@ -44,10 +52,28 @@ const schema = yup.object({
         .min(6, 'A jelszónak minimum 6 karakter hosszúnak kell lennie!')
         .max(100, 'A jelszó maximum 100 karakter hosszú lehet')
         .required('A jelszó megadása kötelező!'),
-    password_confirm : yup.string()
+    password_confirmation : yup.string()
         .required('A jelszó megerősítésének megadása kötelező!')
         .oneOf([yup.ref('password')], 'A jelszó megerősítésének meg kell egyeznie a jelszóval!')
 })
+
+let errors = reactive({})
+const hasError = ref(false)
+
+const register = async function(userData){
+    errors = reactive({})
+    hasError.value = false;
+    try {
+        const resp = await http.post('register', userData);
+        router.push({name: 'login'});
+    } catch (e){
+        const errorMessages = e.response.data.errors
+        for (const key in errorMessages){
+            errors[key] = errorMessages[key];
+        }
+        hasError.value = true
+    }
+}
 
 </script>
 <style scoped>
