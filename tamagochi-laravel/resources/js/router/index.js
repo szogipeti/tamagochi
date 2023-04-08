@@ -27,6 +27,14 @@ const routes = [
             title: "Regisztráció",
             requiesAuth: false
         }
+    },
+    {
+        name: 'profile',
+        path: '/profile',
+        component: Profile,
+        meta: {
+            requiresAuth: true,
+        }
     }
 ]
 
