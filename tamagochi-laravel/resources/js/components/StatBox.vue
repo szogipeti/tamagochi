@@ -4,31 +4,31 @@
         <table class="table table-responsive">
             <tr>
                 <th>Éhség:</th>
-                <td>{{ props.hunger }}</td>
+                <td>{{ props.hunger }}/100</td>
             </tr>
             <tr>
                 <th>Szomjúság:</th>
-                <td>{{ props.thirst }}</td>
+                <td>{{ props.thirst }}/100</td>
             </tr>
             <tr>
                 <th>Jókedv:</th>
-                <td>{{ props.happiness }}</td>
+                <td>{{ props.happiness }}/100</td>
             </tr>
             <tr>
                 <th>Mozgás:</th>
-                <td>{{ props.activity }}</td>
+                <td>{{ props.activity }}/100</td>
             </tr>
             <tr>
                 <th>Egészség:</th>
-                <td>{{ props.health }}</td>
+                <td>{{ props.health }}/100</td>
             </tr>
             <tr>
                 <th>Ügyesség:</th>
-                <td>{{ props.dexterity }}</td>
+                <td>{{ props.dexterity }}/100</td>
             </tr>
             <tr>
                 <th>Kor:</th>
-                <td>{{ age }} év</td>
+                <td>{{ age }} nap</td>
             </tr>
         </table>
     </div>
@@ -87,5 +87,20 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
+div{
+    border: solid 3px #DDD0C8;
+    box-shadow: 5px 10px #DDD0C8 ;
+    background-color: #d49167;
+    color: #323232;
+}
+table{
+    border: solid 3px #d49167;
+    color: #323232;
+}
+tr:nth-child(odd){
+    background-color: #DDD0C8;
+}
+tr:hover{
+    background-color: #d87e47;
+}
 </style>
