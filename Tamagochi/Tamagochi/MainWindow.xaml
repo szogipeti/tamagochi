@@ -21,23 +21,23 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
-                            <Button Margin="10 5 10 10">
+                            <Button Margin="10 5 10 10" Click="Button_Click_1">
                                 Felvétel
                             </Button>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="10 50 0 10" Orientation="Vertical">
-                    <Button>Felhasználók megjelenítése</Button>
-                    <ListBox Height="200"></ListBox>
+                    <Button Click="Button_Click">Felhasználók megjelenítése</Button>
+                    <ListBox x:Name="felhasznalok" Height="200"></ListBox>
                 </StackPanel>
             </StackPanel>
             <StackPanel  Orientation="Horizontal">
                 <StackPanel Width="400" Margin="50 10 10 10" Orientation="Vertical">
                     <Label Margin="30 0 0 10">Felhasználó adatai</Label>
-                    <Label Name="username">Név: </Label>
-                    <Label>email cím: </Label>
-                    <Label>jelszó: </Label>
+                    <Label Name="username"></Label>
+                    <Label Name="email"> </Label>
+                    <Label Name="password"> </Label>
                     <Button>Jelszó megváltoztatása</Button>
                 </StackPanel>
             </StackPanel>
