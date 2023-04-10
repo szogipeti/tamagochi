@@ -1,8 +1,8 @@
 <template>
     <div class="card mx-auto my-5 p-3" v-if="!loggedIn.isLoggedIn">
         <h2 class="card-title my-1">Jelentkezz be, hogy megnézd a háziállatod!</h2>
-        <router-link class="bejelentkez mx-auto my-1" to="/login">Bejelentkezés</router-link>
-        <router-link class="regi mx-auto my-1" to="/register">Regisztráció</router-link>
+        <router-link class="bejelentkez mx-auto" to="/login">Bejelentkezés</router-link>
+        <router-link class="regi mx-auto" to="/register">Regisztráció</router-link>
     </div>
     <div class="container" v-else>
         <div class="row">
@@ -253,6 +253,7 @@ router-link {
 
 }
 .regi{
+    margin-top: 10px;
     outline: 0;
     background: 0 0;
     border: 1px solid #323232;
@@ -269,8 +270,11 @@ router-link {
     color: #323232;
 }
 .bejelentkez{
+    font-weight: bolder;
+    margin-top: 10px;
     outline: 0;
     background: 0 0;
+    background-color: #d49167;
     border: 1px solid #323232;
     border-radius: 0;
     cursor: pointer;
