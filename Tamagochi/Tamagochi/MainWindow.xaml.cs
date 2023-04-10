@@ -23,7 +23,8 @@ namespace Tamagochi
     /// </summary>
     public partial class MainWindow : Window
     {
-        User user = new User();
+        laravelContext context = new laravelContext();
+        User user = new ();
         public MainWindow()
         {
             InitializeComponent();
@@ -31,7 +32,8 @@ namespace Tamagochi
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in user.Username)
+            felhasznalok.Items.Clear();
+            foreach (var item in context.Users)
             {
                 felhasznalok.Items.Add(item);
             }
