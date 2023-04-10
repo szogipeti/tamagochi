@@ -3,14 +3,14 @@
         <h3>Bejelentkezés</h3>
         <Form @submit="login" :validation-schema="schema">
             <div class="form-group">
-                <Field class="form-control" type="email" placeholder="E-mail" name="email" />
+                <Field type="email" placeholder="E-mail" name="email" />
                 <error-message name="email" />
             </div>
             <div class="form-group">
-                <Field class="form-control" type="password" placeholder="Jelszó" name="password" />
+                <Field type="password" placeholder="Jelszó" name="password" />
                 <error-message name="password" />
             </div>
-            <button type="submit" class="btn btn-primary my-2">Bejelentkezés</button>
+            <button type="submit" class="my-2">Bejelentkezés</button>
             <p class="alert alert-danger" v-if="error">{{error}}</p>
         </Form>
         <h5>Nincs még fiókod? <router-link to="/register">Regisztrálj itt!</router-link></h5>
@@ -58,14 +58,54 @@ const login = async function(userData){
 #login{
     width: 700px;
     margin: 30px auto;
-    background-color: white;
-    border: 2px solid lightgray;
-    box-shadow: 10px 10px 10px darkgray;
+    background-color: #DDD0C8;
+    border: 3px solid #d87e47;
+    box-shadow: 5px 10px #d87e47;
 }
-
+h3{
+    color: #323232;
+}
+h5{
+    color: #323232;
+    text-decoration: none;
+}
 input{
     margin: 5px auto;
     padding: 10px 5px;
+    border-radius: 0;
+    width: 100%;
+    
+    border: 1px solid rgb(181, 189, 196);
+    line-height: 24px;
+    padding: 7px 8px;
+    color: #323232;
+    box-shadow: none;
 }
-
+a{
+    color: #323232;
+}
+a:hover{
+    font-weight: bolder;
+}
+button{
+    
+    outline: 0;
+    background: 0 0;
+    border: 1px solid #323232;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 16px;
+    overflow: hidden;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+                
+}
+button:hover {
+    box-shadow: 4px 4px 0 #323232;
+    transform: translate(-4px,-4px);
+}
 </style>
