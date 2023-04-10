@@ -103,7 +103,7 @@ button{
     border-radius: 0;
     cursor: pointer;
     display: inline-flex;
-    font-size: 16px;
+    font-size: 20px;
     overflow: hidden;
     padding: 12px 16px;
     text-decoration: none;
