@@ -89,23 +89,39 @@ router-link {
 
 }
 .regi{
+    outline: 0;
+    background: 0 0;
+    border: 1px solid #323232;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 16px;
+    overflow: hidden;
+    padding: 12px 16px;
     text-decoration: none;
-    font-size: 120%;
-    border: solid 2px #d49167;
-    background-color: #d49167;
-    border-radius: 5px;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
     color: #323232;
 }
 .bejelentkez{
+    outline: 0;
+    background: 0 0;
+    border: 1px solid #323232;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 20px;
+    overflow: hidden;
+    padding: 12px 16px;
     text-decoration: none;
-    font-size: 150%;
-    border: solid 2px #d49167;
-    border-radius: 5px;
-    background-color: #d49167;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
     color: #323232;
 }
 .regi:hover,.bejelentkez:hover{
-    background-color: #d87e47;
-    border: solid 2px #d87e47 ;
+    box-shadow: 4px 4px 0 #323232;
+    transform: translate(-4px,-4px);
 }
 </style>
