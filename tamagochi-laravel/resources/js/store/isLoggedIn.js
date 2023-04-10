@@ -16,6 +16,12 @@ export const useLoggedInStore = defineStore('isLoggedIn', {
             localStorage.setItem('user_id', user_id)
             this.username = username;
             localStorage.setItem('username', username)
+        },
+        logout(){
+            localStorage.clear();
+            this.isLoggedIn = false;
+            this.user_id = null;
+            this.username = "";
         }
     }
 })
