@@ -11,7 +11,9 @@
                           :happiness="animal.happiness" :activity="animal.activity" :health="animal.health"
                           :dexterity="animal.dexterity" :created_at="animal.created_at"/>
             </div>
-            <div class="col-9"></div>
+            <div class="col-9">
+                <activity-box />
+            </div>
         </div>
     </div>
 </template>
@@ -23,6 +25,7 @@ import {useAnimalStore} from "../store/animal";
 import StatBox from "../components/StatBox.vue";
 import {http} from "../utils/http";
 import {onMounted, reactive, ref, watch} from "vue";
+import ActivityBox from "../components/ActivityBox.vue";
 
 const loggedIn = useLoggedInStore();
 const animalStore = useAnimalStore();
@@ -64,6 +67,11 @@ const updateStatsLastState = function (){
     if(animal.health - healthDuration > 0){
         animal.health -= healthDuration;
     }
+
+    const dexterityDuration = Math.floor((new Date() - Date.parse(animal.last_dexterity)) / (1000 * 60 * 60 * 2))
+    if(animal.dexterity - dexterityDuration > 0){
+        animal.dexterity -= dexterityDuration;
+    }
 }
 
 const minuteTimeout = 1000 * 60;
@@ -73,6 +81,7 @@ const thirstCountDown = ref(0);
 const happinessCountDown = ref(0);
 const activityCountDown = ref(0);
 const healthCountDown = ref(0);
+const dexterityCountDown = ref(0);
 
 const startTimers = function (){
     hungerCountDown.value = 30 - Math.round((new Date() - Date.parse(animal.last_hunger)) / minuteTimeout) % 30;
@@ -80,12 +89,14 @@ const startTimers = function (){
     happinessCountDown.value = 90 - Math.round(((new Date() - Date.parse(animal.last_happiness)) / minuteTimeout)) % 90;
     activityCountDown.value = 90 - Math.round(((new Date() - Date.parse(animal.last_activity)) / minuteTimeout)) % 90;
     healthCountDown.value = 120 - Math.round(((new Date() - Date.parse(animal.last_health)) / minuteTimeout)) % 120;
+    healthCountDown.value = 60 - Math.round(((new Date() - Date.parse(animal.last_dexterity)) / minuteTimeout)) % 60;
 
     hungerTimer();
     thirstTimer();
     happinessTimer();
     activityTimer();
     healthTimer();
+    dexterityTimer();
 }
 
 const hungerTimer = function (){
@@ -142,6 +153,17 @@ const healthTimer = function(){
     });
 }
 
+const dexterityTimer = function(){
+    return new Promise(function (){
+        if(dexterityCountDown.value > 0){
+            setTimeout(() => {
+                dexterityCountDown.value--;
+                dexterityTimer()
+            }, minuteTimeout)
+        }
+    });
+}
+
 watch(hungerCountDown, (newHungerCountDown) => {
     if(newHungerCountDown <= 0){
         hungerCountDown.value = 30;
@@ -179,6 +201,14 @@ watch(healthCountDown, (newHealthCountDown) => {
         healthCountDown.value = 120;
         getAnimal();
         healthTimer();
+    }
+})
+
+watch(dexterityCountDown, (newDexterityCountDown) => {
+    if(newDexterityCountDown <= 0){
+        dexterityCountDown.value = 120;
+        getAnimal();
+        dexterityTimer();
     }
 })
 
