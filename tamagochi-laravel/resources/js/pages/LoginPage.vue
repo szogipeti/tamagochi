@@ -99,6 +99,7 @@ button{
     
     outline: 0;
     background: 0 0;
+    background-color: #d49167;
     border: 1px solid #323232;
     border-radius: 0;
     cursor: pointer;
