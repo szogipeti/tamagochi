@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import {watch, ref, onMounted} from "vue";
+import {ref} from "vue";
 
 const props = defineProps({
     name: String,
@@ -49,10 +49,6 @@ const props = defineProps({
 })
 
 const age = ref(Math.ceil((Date.now() - Date.parse(props.created_at)) / (1000 * 60 * 60 * 24)));
-
-const emit = defineEmits([
-    'loseStats'
-])
 
 </script>
 
