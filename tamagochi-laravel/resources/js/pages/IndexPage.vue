@@ -1,7 +1,8 @@
 <template>
     <div class="card mx-auto my-5 p-3" v-if="!loggedIn.isLoggedIn">
         <h2 class="card-title my-1">Jelentkezz be, hogy megnézd a háziállatod!</h2>
-        <router-link class="btn btn-primary mx-auto my-1" to="/login">Bejelentkezés</router-link>
+        <router-link class="bejelentkez mx-auto my-1" to="/login">Bejelentkezés</router-link>
+        <router-link class="regi mx-auto my-1" to="/register">Regisztráció</router-link>
     </div>
     <div class="container" v-else>
         <div class="row">
@@ -76,9 +77,35 @@ onMounted(() => {
 <style scoped>
 .card {
     width: 700px;
+    border-radius: 0;
+    background-color: #DDD0C8;
+    color: #323232;
+    border: solid 3px #d87e47 ;
+    box-shadow: 5px 5px #d87e47;
 }
 
 router-link {
     width: 20em;
+
+}
+.regi{
+    text-decoration: none;
+    font-size: 120%;
+    border: solid 2px #d49167;
+    background-color: #d49167;
+    border-radius: 5px;
+    color: #323232;
+}
+.bejelentkez{
+    text-decoration: none;
+    font-size: 150%;
+    border: solid 2px #d49167;
+    border-radius: 5px;
+    background-color: #d49167;
+    color: #323232;
+}
+.regi:hover,.bejelentkez:hover{
+    background-color: #d87e47;
+    border: solid 2px #d87e47 ;
 }
 </style>
