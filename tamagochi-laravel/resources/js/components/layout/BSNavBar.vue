@@ -5,7 +5,7 @@
         <div class="d-flex order-lg-1 justify-content-end align-items-center">
             <div class="d-flex align-items-center ms-auto ms-md-0 profil">
                 <router-link v-if="!loggedIn.isLoggedIn" to="/login" class="nav-link mx-2" >Bejelentkezés</router-link>
-                <router-link v-else to="" class="d-flex justify-content-end align-items-center">
+                <router-link v-else to="/profile" class="d-flex justify-content-end align-items-center">
                     <p class="ms-1 my-auto me-2">{{loggedIn.username}}</p>
                     <font-awesome-icon class="mx-2" :icon="['fas', 'fa-circle-user']" size="2xl" />
                 </router-link>

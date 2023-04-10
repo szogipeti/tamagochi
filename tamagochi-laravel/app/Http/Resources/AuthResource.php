@@ -14,10 +14,14 @@ class AuthResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $body = [
             'id' => $this->id,
             'username' => $this->username,
-            'token' => $this->createToken('authToken')->plainTextToken
+            'token' => $this->createToken('authToken')->plainTextToken,
         ];
+        if($this->pet !== null){
+            $body['animal_id'] = $this->pet->id;
+        }
+        return $body;
     }
 }
