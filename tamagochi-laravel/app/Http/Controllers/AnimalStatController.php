@@ -23,13 +23,7 @@ class AnimalStatController extends Controller
         $validated = $request->validated();
 
         $animal = Animal_stat::findOrFail($id);
-        $animal['name'] = $validated['name']??$animal['name'];
-        $animal['hunger'] = $validated['hunger']??$animal['hunger'];
-        $animal['thirst'] = $validated['thirst']??$animal['thirst'];
-        $animal['happiness'] = $validated['happiness']??$animal['happiness'];
-        $animal['activity'] = $validated['activity']??$animal['activity'];
-        $animal['health'] = $validated['health']??$animal['health'];
-        $animal['dexterity'] = $validated['dexterity']??$animal['dexterity'];
+        $animal->update($validated);
 
         $animal->save();
 

@@ -31,6 +31,12 @@ class UpdateAnimalRequest extends FormRequest
             'activity' => 'integer|min:1|max:100',
             'health' => 'integer|min:1|max:100',
             'dexterity' => 'integer|min:1|max:100',
+            'last_hunger' => 'required_with:hunger|date',
+            'last_thirst' => 'required_with:thirst|date',
+            'last_happiness' => 'required_with:happiness|date',
+            'last_activity' => 'required_with:activity|date',
+            'last_health' => 'required_with:health|date',
+            'last_dexterity' => 'required_with:dexterity|date',
         ];
     }
 }
