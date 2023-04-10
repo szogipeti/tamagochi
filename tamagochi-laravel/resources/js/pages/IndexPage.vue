@@ -7,7 +7,7 @@
     <div class="container" v-else>
         <div class="row">
             <div class="col-3">
-                <stat-box @lose-stats="loseStats" v-if="animalLoaded" :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
+                <stat-box v-if="animalLoaded" :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
                           :happiness="animal.happiness" :activity="animal.activity" :health="animal.health"
                           :dexterity="animal.dexterity" :created_at="animal.created_at"/>
             </div>
@@ -22,7 +22,7 @@ import {useLoggedInStore} from "../store/isLoggedIn";
 import {useAnimalStore} from "../store/animal";
 import StatBox from "../components/StatBox.vue";
 import {http} from "../utils/http";
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 
 const loggedIn = useLoggedInStore();
 const animalStore = useAnimalStore();
@@ -37,16 +37,150 @@ const getAnimal = async function () {
     }
     updateStatsLastState();
     animalLoaded.value = true;
-    console.log(resp)
-    console.log(animal)
 }
 
 const updateStatsLastState = function (){
-    const iteration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 30));
-    if(animal.hunger - iteration > 0){
-        animal.hunger -= iteration;
+    const hungerDuration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 60 * 0.5));
+    if(animal.hunger - hungerDuration > 0){
+        animal.hunger -= hungerDuration;
+    }
+
+    const thirstDuration = Math.floor((new Date() - Date.parse(animal.last_thirst)) / (1000 * 60 * 60 * 0.5))
+    if(animal.thirst - thirstDuration > 0){
+        animal.thirst -= thirstDuration;
+    }
+
+    const happinessDuration = Math.floor((new Date() - Date.parse(animal.last_happiness)) / (1000 * 60 * 60 * 1.5))
+    if(animal.happiness - happinessDuration > 0){
+        animal.happiness -= happinessDuration;
+    }
+
+    const activityDuration = Math.floor((new Date() - Date.parse(animal.last_activity)) / (1000 * 60 * 60 * 1.5))
+    if(animal.activity - activityDuration > 0){
+        animal.activity -= activityDuration;
+    }
+
+    const healthDuration = Math.floor((new Date() - Date.parse(animal.last_health)) / (1000 * 60 * 60 * 2))
+    if(animal.health - healthDuration > 0){
+        animal.health -= healthDuration;
     }
 }
+
+const minuteTimeout = 1000 * 60;
+
+const hungerCountDown = ref(0);
+const thirstCountDown = ref(0);
+const happinessCountDown = ref(0);
+const activityCountDown = ref(0);
+const healthCountDown = ref(0);
+
+const startTimers = function (){
+    hungerCountDown.value = 30 - Math.round((new Date() - Date.parse(animal.last_hunger)) / minuteTimeout) % 30;
+    thirstCountDown.value = 30 - Math.round(((new Date() - Date.parse(animal.last_thirst)) / minuteTimeout)) % 30;
+    happinessCountDown.value = 90 - Math.round(((new Date() - Date.parse(animal.last_happiness)) / minuteTimeout)) % 90;
+    activityCountDown.value = 90 - Math.round(((new Date() - Date.parse(animal.last_activity)) / minuteTimeout)) % 90;
+    healthCountDown.value = 120 - Math.round(((new Date() - Date.parse(animal.last_health)) / minuteTimeout)) % 120;
+
+    hungerTimer();
+    thirstTimer();
+    happinessTimer();
+    activityTimer();
+    healthTimer();
+}
+
+const hungerTimer = function (){
+    if(hungerCountDown.value > 0){
+        setTimeout(() => {
+            hungerCountDown.value--;
+            hungerTimer()
+        }, minuteTimeout)
+    }
+}
+
+const thirstTimer = function(){
+    if(thirstCountDown.value > 0){
+        setTimeout(() => {
+            thirstCountDown.value--;
+            thirstTimer()
+        }, minuteTimeout)
+    }
+}
+
+
+const happinessTimer = function(){
+    return new Promise(function (){
+        if(happinessCountDown.value > 0){
+            setTimeout(() => {
+                happinessCountDown.value--;
+                happinessTimer()
+            }, minuteTimeout)
+        }
+    });
+}
+
+
+const activityTimer = function(){
+    return new Promise(function (){
+        if(activityCountDown.value > 0){
+            setTimeout(() => {
+                activityCountDown.value--;
+                activityTimer()
+            }, minuteTimeout)
+        }
+    });
+}
+
+
+const healthTimer = function(){
+    return new Promise(function (){
+        if(healthCountDown.value > 0){
+            setTimeout(() => {
+                healthCountDown.value--;
+                healthTimer()
+            }, minuteTimeout)
+        }
+    });
+}
+
+watch(hungerCountDown, (newHungerCountDown) => {
+    if(newHungerCountDown <= 0){
+        hungerCountDown.value = 30;
+        getAnimal();
+        hungerTimer();
+    }
+})
+
+watch(thirstCountDown, (newThirstCountDown) => {
+    if(newThirstCountDown <= 0){
+        thirstCountDown.value = 30;
+        getAnimal();
+        thirstTimer();
+    }
+})
+
+watch(happinessCountDown, (newHappinessCountDown) => {
+    if(newHappinessCountDown <= 0){
+        happinessCountDown.value = 90;
+        getAnimal();
+        happinessTimer();
+    }
+})
+
+watch(activityCountDown, (newActivityCountDown) => {
+    if(newActivityCountDown <= 0){
+        activityCountDown.value = 90;
+        getAnimal();
+        activityTimer();
+    }
+})
+
+watch(healthCountDown, (newHealthCountDown) => {
+    if(newHealthCountDown <= 0){
+        healthCountDown.value = 120;
+        getAnimal();
+        healthTimer();
+    }
+})
 
 const loseStats = function (){
     animal.hunger--;
@@ -68,7 +202,7 @@ const loseStats = function (){
 }
 
 onMounted(() => {
-    getAnimal();
+    getAnimal().then(() => startTimers());
 })
 
 

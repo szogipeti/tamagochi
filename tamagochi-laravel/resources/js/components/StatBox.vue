@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import {watch, ref, onMounted} from "vue";
+import {ref} from "vue";
 
 const props = defineProps({
     name: String,
@@ -48,41 +48,7 @@ const props = defineProps({
     created_at: String
 })
 
-const age = ref(Math.ceil((Date.now() - Date.parse(props.created_at)) / (1000 * 60)));
-
-const countDown = ref(
-    60 -
-    Math.ceil(
-        (Date.now() - Date.parse(props.created_at)) / (1000) -
-        Math.floor((Date.now() - Date.parse(props.created_at)) / (1000) / 60) * 60
-    )
-);
-
-const timer = function () {
-    if (countDown.value > 0) {
-        setTimeout(() => {
-            countDown.value--;
-            timer();
-        }, 1000)
-    }
-}
-
-watch(countDown, (newCountDown) => {
-    if (newCountDown <= 0) {
-        age.value++;
-        emit('loseStats')
-        countDown.value = 60;
-        timer();
-    }
-})
-
-const emit = defineEmits([
-    'loseStats'
-])
-
-onMounted(() => {
-    timer();
-})
+const age = ref(Math.ceil((Date.now() - Date.parse(props.created_at)) / (1000 * 60 * 60 * 24)));
 
 </script>
 
