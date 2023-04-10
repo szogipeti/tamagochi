@@ -24,9 +24,11 @@ import {Form, Field, ErrorMessage} from "vee-validate"
 import {http} from "../utils/http.js"
 import * as yup from "yup"
 import {useLoggedInStore} from "../store/isLoggedIn";
+import {useAnimalStore} from "../store/animal";
 
 const router = useRouter();
 const loggedIn = useLoggedInStore();
+const animalStore = useAnimalStore();
 
 const schema = yup.object({
     email: yup.string()
@@ -46,8 +48,14 @@ const login = async function(userData){
     try {
         const resp = await http.post('login', userData);
         loggedIn.login(resp.data.token, resp.data.username, resp.data.id)
-        router.push({name: 'animal_select'})
+        if(resp.data.animal_id === undefined || resp.data.animal_id === null){
+            router.push({name: 'animal_select'})
+        }else{
+            animalStore.setAnimal(resp.data.animal_id)
+            router.push({name: 'index'})
+        }
     } catch (e){
+        console.log(e)
         error.value = e.response.data.data.message;
     }
 }

@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function pet(){
+        return $this->hasOne(Animal_stat::class, 'user_id', 'id');
+    }
 }

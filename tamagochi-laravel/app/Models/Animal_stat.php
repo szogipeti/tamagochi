@@ -36,4 +36,8 @@ class Animal_stat extends Model
     public function animal(){
         return $this->hasOne(Animal::class, 'animal_id',"id",);
     }
+
+    public function owner(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
