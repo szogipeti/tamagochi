@@ -5,11 +5,15 @@
                 <Form class="fromdata">
                     <font-awesome-icon class="profile" icon="fa-solid fa-circle-user" />
                     <h1 class="profile">{{ user.username }}</h1>
-                    <p id="email">Email: {{ user.email }}</p>
-                    <router-link class="buttons" to="">
+                    <p id="email" class="mx-auto">Email: {{ user.email }}</p>
+                    <div class=" nagy">
+                        <router-link class="buttons" to="">
                         Háziállat visszaállítása
-                    </router-link>
-                    <button id="btnlogout" class="buttons" @click="logout">Kijelentkezés</button>
+                        </router-link>
+                    </div>
+                    <div class=" nagy">
+                        <button id="btnlogout" class="buttons" @click="logout">Kijelentkezés</button>
+                    </div>
                 </Form>
             </div>
         </div>
@@ -55,45 +59,80 @@ onMounted(() => {
 }
 
 .buttons{
-    display: block;
-    width: 100%;
-    border: 2px solid #18afa5;
-    background-color: #18afa5;
-    padding: 14px 28px;
-    font-size: 150%;
-    text-align: center;
-    color: black;
+    left: 50%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    outline: 0;
+    background: 0 0;
+    background-color: #d49167;
+    border: 1px solid #323232;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 20px;
+    overflow: hidden;
+    padding: 12px 16px;
     text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+                
+}
+button:hover {
+    box-shadow: 4px 4px 0 #323232;
+    transform: translate(-4px,-4px);
+}
+a{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    outline: 0;
+    background: 0 0;
+    background-color: #d49167;
+    color: #323232;
+    border: 1px solid #323232;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 20px;
+    overflow: hidden;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}
+a:hover{
+    box-shadow: 4px 4px 0 #323232;
+    transform: translate(-4px,-4px);
 }
 #btnlogout{
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    width: 30%;
 }
 #email{
-    width: 100%;
+    width: 50%;
     text-align: center;
     font-size: 150%;
-    background-color: white;
-    border: 2px solid #18afa5;
+    background-color: #DDD0C8;
+    border: 2px solid #d49167;
     margin-bottom: 20px;
 
 }
 .profile{
     width: 100%;
     text-align: center;
+    font-weight: bolder;
     font-size: 150%;
     margin-top: 10px;
 }
 #profdiv{
-    background-color: gainsboro;
-    border: 2px solid lightgray;
     margin-top: 20px;
     margin-bottom: 30px;
-    box-shadow:10px 10px 10px darkgrey;
     left: 15%;
+    background-color: #DDD0C8;
+    border: 3px solid #d87e47;
+    box-shadow: 5px 10px #d87e47;
+}
+.nagy{
+    width: 100%;
 }
 </style>

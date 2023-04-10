@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Animal_stat extends Model
 {
-    protected $fillable = ['user_id', 'animal_id', 'name', 'hunger', 'thirst', 'happiness','activity','health','dexterity'];
+    protected $fillable = ['user_id', 'animal_id', 'name', 'hunger', 'thirst', 'happiness', 'activity', 'health',
+        'dexterity', 'last_hunger', 'last_thirst', 'last_happiness', 'last_activity', 'last_health', 'last_dexterity'];
     protected $attributes = [
         'hunger' => 100,
         'thirst' => 100,
@@ -19,7 +20,8 @@ class Animal_stat extends Model
 
     public $timestamps = false;
 
-    public static function boot(){
+    public static function boot()
+    {
         parent::boot();
 
         static::creating(function ($model) {
@@ -33,11 +35,13 @@ class Animal_stat extends Model
         });
     }
 
-    public function animal(){
-        return $this->hasOne(Animal::class, 'animal_id',"id",);
+    public function animal()
+    {
+        return $this->hasOne(Animal::class, 'animal_id', "id",);
     }
 
-    public function owner(){
+    public function owner()
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
