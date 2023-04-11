@@ -42,12 +42,16 @@ const formatDate = function (date){
     return `${date.getFullYear()}-${month}-${day} ${hour}:${minutes}:${seconds}`
 }
 
-const hunt = function () {
+const checkActionCount = function (){
     if(animal.action_count <= 0){
         alert("Ma már nincs több lépésed!")
         return;
     }
     animal.action_count--;
+}
+
+const hunt = function () {
+    checkActionCount();
 
     const date = formatDate(new Date());
 
@@ -73,7 +77,35 @@ const hunt = function () {
 }
 
 const play = function () {
+    checkActionCount();
 
+    const date = formatDate(new Date())
+
+    animal.happiness += 20;
+    animal.last_happiness = date;
+    if(animal.happiness > 100){
+        animal.happiness = 100;
+    }
+
+    animal.health += 5;
+    animal.last_health = date
+    if(animal.health > 100){
+        animal.health = 100;
+    }
+
+    animal.dexterity += 10;
+    animal.last_dexterity = date;
+    if(animal.dexterity > 100){
+        animal.dexterity = 100;
+    }
+
+    animal.activity += 10;
+    animal.last_activity = date;
+    if(animal.activity > 100){
+        animal.activity = 100;
+    }
+
+    http.put(`animals/stats/${animal.id}/update`, animal)
 }
 
 const checkup = function () {
@@ -81,7 +113,23 @@ const checkup = function () {
 }
 
 const medication = function () {
+    checkActionCount();
 
+    const date = formatDate(new Date())
+
+    animal.health += 30;
+    animal.last_health = date;
+    if(animal.health > 100){
+        animal.health = 100;
+    }
+
+    animal.happiness -= 20;
+    animal.last_happiness = date;
+    if(animal.happiness > 100){
+        animal.happiness = 100;
+    }
+
+    http.put(`animals/stats/${animal.id}/update`, animal)
 }
 
 const getAnimal = async function () {
