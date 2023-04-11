@@ -10,12 +10,10 @@ class AnimalController extends Controller
 {
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        header("info: hello2");
         return AnimalResource::collection(Animal::all());
     }
 
     public function store(StoreAnimalRequest $request){
-        header("info: hello");
         $validated = $request->validated();
         return new AnimalResource(Animal::create($validated));
     }
