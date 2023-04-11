@@ -7,15 +7,15 @@
                     <h1 class="profile">{{ user.username }}</h1>
                     <p id="email" class="mx-auto">Email: {{ user.email }}</p>
                     <div class="nagy mx-auto">
-                        <button v-if="animalStore.animalId !== null" class="buttons mx-auto" @click="resetAnimal">
+                        <button v-if="animalStore.animalId !== null" class="buttons mx-auto d-block" @click="resetAnimal">
                         Háziállat visszaállítása
                         </button>
-                        <router-link v-else class="buttons mx-auto" to="/animals/select">
+                        <router-link v-else class="buttons mx-auto d-block" to="/animals/select" style="width: 275px">
                             Háziállat létrehozása
                         </router-link>
                     </div>
                     <div class=" nagy mx-auto">
-                        <button id="btnlogout" class="buttons mx-auto" @click="logout">Kijelentkezés</button>
+                        <button id="btnlogout" class="buttons mx-auto d-block" @click="logout">Kijelentkezés</button>
                     </div>
                 </Form>
             </div>
