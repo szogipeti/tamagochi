@@ -33,7 +33,7 @@ const animalStore = useAnimalStore();
 const schema = yup.object({
     email: yup.string()
         .email('Az e-mail formátuma nem megfelelő!')
-        .min(6, 'Az e-mailnek minimum 6 hosszúnak kell lennie!')
+        .min(6, 'Az e-mailnek minimum 6 karakter hosszúnak kell lennie!')
         .max(100, 'Az e-mail maximum 100 karakter hosszú lehet!')
         .required('Az e-mail megadása kötelező!'),
     password: yup.string()
@@ -82,7 +82,7 @@ input{
     padding: 10px 5px;
     border-radius: 0;
     width: 100%;
-    
+
     border: 1px solid rgb(181, 189, 196);
     line-height: 24px;
     padding: 7px 8px;
@@ -96,7 +96,7 @@ a:hover{
     font-weight: bolder;
 }
 button{
-    
+
     outline: 0;
     background: 0 0;
     background-color: #d49167;
@@ -111,7 +111,7 @@ button{
     text-overflow: ellipsis;
     transition: all .14s ease-out;
     white-space: nowrap;
-                
+
 }
 button:hover {
     box-shadow: 4px 4px 0 #323232;
