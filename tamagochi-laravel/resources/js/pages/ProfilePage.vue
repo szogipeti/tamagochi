@@ -6,9 +6,12 @@
                     <font-awesome-icon class="profile" icon="fa-solid fa-circle-user" />
                     <h1 class="profile">{{ user.username }}</h1>
                     <p id="email" class="mx-auto">Email: {{ user.email }}</p>
-                    <div class=" nagy">
-                        <router-link class="buttons" to="">
+                    <div class="nagy">
+                        <button v-if="animalStore.animalId !== null" class="buttons" @click="resetAnimal">
                         Háziállat visszaállítása
+                        </button>
+                        <router-link v-else class="buttons" to="/animals/select">
+                            Háziállat létrehozása
                         </router-link>
                     </div>
                     <div class=" nagy">
@@ -27,8 +30,10 @@ import {Form, Field} from 'vee-validate';
 import {http} from "../utils/http";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {useLoggedInStore} from "../store/isLoggedIn.js";
+import {useAnimalStore} from "../store/animal";
 
 const isLoggedInStore = useLoggedInStore();
+const animalStore = useAnimalStore();
 
 const router = useRouter();
 const user = reactive({});
@@ -37,6 +42,13 @@ const logout = () => {
     isLoggedInStore.logout();
     router.push('/login');
 }
+
+const resetAnimal = function (){
+    http.delete(`/animals/stats/${animalStore.animalId}`)
+    animalStore.removeAnimal();
+    router.push('animals/select');
+}
+
 defineExpose({logout});
 
 async function getUserData() {
@@ -76,7 +88,7 @@ onMounted(() => {
     text-overflow: ellipsis;
     transition: all .14s ease-out;
     white-space: nowrap;
-                
+
 }
 button:hover {
     box-shadow: 4px 4px 0 #323232;

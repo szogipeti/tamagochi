@@ -30,4 +30,8 @@ class AnimalStatController extends Controller
 
         return new AnimalStatResource($animal);
     }
+
+    public function destroy($id){
+        AnimalStat::findOrFail($id)->delete();
+    }
 }
