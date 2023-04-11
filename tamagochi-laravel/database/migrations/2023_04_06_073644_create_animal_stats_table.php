@@ -26,12 +26,14 @@ return new class extends Migration
             $table->integer("activity");
             $table->integer("health");
             $table->integer("dexterity");
+            $table->integer('action_count');
             $table->timestamp('last_hunger');
             $table->timestamp('last_thirst');
             $table->timestamp('last_happiness');
             $table->timestamp('last_activity');
             $table->timestamp('last_health');
             $table->timestamp('last_dexterity');
+            $table->timestamp('last_action');
             $table->timestamp('created_at');
         });
     }

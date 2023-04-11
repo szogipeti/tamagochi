@@ -34,5 +34,6 @@ Route::get('/animals/stats/{id}', [AnimalStatController::class, 'show'])->whereN
 
 Route::post('/animals/stats', [AnimalStatController::class, 'store'])->name('animals.stats.store');
 Route::put('/animals/stats/{id}/update', [AnimalStatController::class, 'update'])->whereNumber('id')->name('animals.stats.update');
+Route::delete('/animals/stats/{id}', [AnimalStatController::class, 'destroy'])->whereNumber('id')->name('animals.stats.destroy');
 
 Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');

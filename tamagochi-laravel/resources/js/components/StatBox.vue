@@ -31,6 +31,7 @@
                 <td>{{ age }} nap</td>
             </tr>
         </table>
+        <p class="text-center">{{action_count}} lépésed van még ma</p>
     </div>
 </template>
 
@@ -45,7 +46,8 @@ const props = defineProps({
     activity: Number,
     health: Number,
     dexterity: Number,
-    created_at: String
+    created_at: String,
+    action_count: Number
 })
 
 const age = ref(Math.ceil((Date.now() - Date.parse(props.created_at)) / (1000 * 60 * 60 * 24)));

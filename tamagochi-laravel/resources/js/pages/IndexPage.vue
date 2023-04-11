@@ -9,10 +9,10 @@
             <div class="col-3">
                 <stat-box :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
                           :happiness="animal.happiness" :activity="animal.activity" :health="animal.health"
-                          :dexterity="animal.dexterity" :created_at="animal.created_at"/>
+                          :dexterity="animal.dexterity" :created_at="animal.created_at" :action_count="animal.action_count"/>
             </div>
             <div class="col-9">
-                <activity-box @hunt="hunt" @play="play" @checkup="checkup" @medication="medication"/>
+                <activity-box @feed="feed" @drink="drink" @hunt="hunt" @play="play" @checkup="checkup" @medication="medication"/>
             </div>
         </div>
     </div>
@@ -33,38 +33,134 @@ const animalStore = useAnimalStore();
 const animal = reactive({});
 const animalLoaded = ref(false)
 
-const hunt = function () {
-    const now = new Date();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const hour = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const date = `${now.getFullYear()}-${month}-${day} ${hour}:${minutes}:${seconds}`;
+const formatDate = function (date){
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hour = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${day} ${hour}:${minutes}:${seconds}`
+}
+
+const checkActionCount = function (){
+    if(animal.action_count <= 0){
+        alert("Ma már nincs több lépésed!")
+        return;
+    }
+    animal.action_count--;
+}
+
+const feed = function (){
+    checkActionCount();
+
+    const date = formatDate(new Date());
 
     animal.hunger += 20;
     animal.last_hunger = date;
-    if (animal.hunger > 100) {
+    if(animal.hunger > 100){
         animal.hunger = 100;
     }
 
-    animal.happiness += 10;
-    animal.last_happiness = date;
-    if (animal.happiness > 100) {
-        animal.happiness = 100;
+    animal.movement -= 10;
+    animal.last_movement = date;
+    if(animal.movement < 1){
+        animal.movement = 1;
     }
 
-    animal.dexterity += 15;
+    animal.dexterity -= 10;
     animal.last_dexterity = date;
-    if (animal.dexterity > 100) {
-        animal.dexterity = 100;
+    if(animal.dexterity < 1){
+        animal.dexterity = 1;
+    }
+
+    http.put(`animals/stats/${animal.id}/update`, animal)
+}
+
+const drink = function (){
+    checkActionCount();
+
+    const date = formatDate(new Date());
+
+    animal.thirst += 20;
+    animal.last_thirst = date;
+    if(animal.thirst > 100){
+        animal.thirst = 100;
+    }
+
+    http.put(`animals/stats/${animal.id}/update`, animal)
+}
+
+const hunt = function () {
+    checkActionCount();
+
+    const date = formatDate(new Date());
+
+    const random = Math.floor(1 + Math.random()  * 100);
+    const avg = (animal.happiness + animal.activity + animal.dexterity + animal.health) / 4
+
+    console.log(random)
+    console.log(avg)
+    console.log(random < avg)
+
+    if(random < avg){
+        animal.hunger += 20;
+        animal.last_hunger = date;
+        if (animal.hunger > 100) {
+            animal.hunger = 100;
+        }
+
+        animal.happiness += 10;
+        animal.last_happiness = date;
+        if (animal.happiness > 100) {
+            animal.happiness = 100;
+        }
+
+        animal.dexterity += 15;
+        animal.last_dexterity = date;
+        if (animal.dexterity > 100) {
+            animal.dexterity = 100;
+        }
+    }else{
+        animal.activity += 20;
+        animal.last_activity = date;
+        if(animal.activity > 100){
+            animal.activity = 100;
+        }
     }
 
     http.put(`animals/stats/${animal.id}/update`, animal)
 }
 
 const play = function () {
+    checkActionCount();
 
+    const date = formatDate(new Date())
+
+    animal.happiness += 20;
+    animal.last_happiness = date;
+    if(animal.happiness > 100){
+        animal.happiness = 100;
+    }
+
+    animal.health += 5;
+    animal.last_health = date
+    if(animal.health > 100){
+        animal.health = 100;
+    }
+
+    animal.dexterity += 10;
+    animal.last_dexterity = date;
+    if(animal.dexterity > 100){
+        animal.dexterity = 100;
+    }
+
+    animal.activity += 10;
+    animal.last_activity = date;
+    if(animal.activity > 100){
+        animal.activity = 100;
+    }
+
+    http.put(`animals/stats/${animal.id}/update`, animal)
 }
 
 const checkup = function () {
@@ -72,7 +168,23 @@ const checkup = function () {
 }
 
 const medication = function () {
+    checkActionCount();
 
+    const date = formatDate(new Date())
+
+    animal.health += 30;
+    animal.last_health = date;
+    if(animal.health > 100){
+        animal.health = 100;
+    }
+
+    animal.happiness -= 20;
+    animal.last_happiness = date;
+    if(animal.happiness < 1){
+        animal.happiness = 1;
+    }
+
+    http.put(`animals/stats/${animal.id}/update`, animal)
 }
 
 const getAnimal = async function () {
@@ -85,6 +197,12 @@ const getAnimal = async function () {
 }
 
 const updateStatsLastState = function () {
+    if(new Date().getDate() - new Date(animal.last_action).getDate() > 0){
+        animal.action_count = 10;
+        animal.last_action = formatDate(new Date())
+        http.put(`animals/stats/${animal.id}/update`, animal)
+    }
+
     const hungerDuration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 60 * 0.5));
     if (animal.hunger - hungerDuration > 0) {
         animal.hunger -= hungerDuration;
@@ -159,7 +277,6 @@ const thirstTimer = function () {
     }
 }
 
-
 const happinessTimer = function () {
     return new Promise(function () {
         if (happinessCountDown.value > 0) {
@@ -171,7 +288,6 @@ const happinessTimer = function () {
     });
 }
 
-
 const activityTimer = function () {
     return new Promise(function () {
         if (activityCountDown.value > 0) {
@@ -182,7 +298,6 @@ const activityTimer = function () {
         }
     });
 }
-
 
 const healthTimer = function () {
     return new Promise(function () {

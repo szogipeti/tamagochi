@@ -17,9 +17,9 @@ class AnimalSeeder extends Seeder
     {
         DB::table("animals")->insert(
             [
-                ['id' => 1,'name' => 'Tigris'],
-                ['id' => 2,'name' => 'Poro'],
-                ['id' => 3,'name' => 'Anivia'],
+                ['id' => 1,'name' => 'Tigris','image' => 'img/tigris.png'],
+                ['id' => 2,'name' => 'Poro','image' => 'img/poro.png'],
+                ['id' => 3,'name' => 'Anivia','image' => 'img/anivia.png'],
             ]);
     }
 }

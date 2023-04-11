@@ -1,10 +1,10 @@
 <template>
-    <div class="card mx-auto" style="width: 50em">
-        <h5 class="m-3">Hozd létre a kezdő állatodat!</h5>
+    <div id="maindiv" class="card mx-auto" style="width: 50em">
+        <h5>Hozd létre a kezdő állatodat!</h5>
         <div class="mx-auto" style="width: 40em">
             <div class="form-group my-3">
                 <label class="form-label" for="name">Név:</label>
-                <input class="form-control" type="text" name="name" id="name" v-model="animalName">
+                <input class="form-control" placeholder="pl.: Gombóc" type="text" name="name" id="name" v-model="animalName">
             </div>
             <div class="form-group my-3">
                 <label class="form-label" for="type">Állatfajta:</label>
@@ -13,7 +13,7 @@
                 </select>
             </div>
         </div>
-        <button class="btn btn-primary w-50 mx-auto my-3" @click="createAnimal">Létrehozás</button>
+        <button class="mx-auto" @click="createAnimal">Létrehozás</button>
         <div class="alert alert-danger m-3" v-if="hasError">
             <div v-for="(value, key) in errors" :key="key">
                 <p class="my-auto" v-for="error in value" :key="error">{{error}}</p>
@@ -88,5 +88,41 @@ onMounted(() => {
 })
 </script>
 <style scoped>
-
+h5{
+    text-align: center;
+    color: #323232;
+    font-weight: bolder;
+    font-size: 120%;
+    margin-top: 10px;
+}
+#maindiv{
+    background-color: #DDD0C8;
+    border: 3px solid #d87e47;
+    box-shadow: 5px 10px #d87e47;
+    border-radius: 0;
+    margin-top: 20px;
+}
+button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    outline: 0;
+    background: 0 0;
+    background-color: #d49167;
+    border: 1px solid #323232;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 20px;
+    overflow: hidden;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}
+button:hover {
+    box-shadow: 4px 4px 0 #323232;
+    transform: translate(-4px,-4px);
+}
 </style>

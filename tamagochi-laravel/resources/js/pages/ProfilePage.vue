@@ -6,13 +6,16 @@
                     <font-awesome-icon class="profile" icon="fa-solid fa-circle-user" />
                     <h1 class="profile">{{ user.username }}</h1>
                     <p id="email" class="mx-auto">Email: {{ user.email }}</p>
-                    <div class=" nagy">
-                        <router-link class="buttons" to="">
+                    <div class="nagy mx-auto">
+                        <button v-if="animalStore.animalId !== null" class="buttons mx-auto" @click="resetAnimal">
                         Háziállat visszaállítása
+                        </button>
+                        <router-link v-else class="buttons mx-auto" to="/animals/select">
+                            Háziállat létrehozása
                         </router-link>
                     </div>
-                    <div class=" nagy">
-                        <button id="btnlogout" class="buttons" @click="logout">Kijelentkezés</button>
+                    <div class=" nagy mx-auto">
+                        <button id="btnlogout" class="buttons mx-auto" @click="logout">Kijelentkezés</button>
                     </div>
                 </Form>
             </div>
@@ -27,8 +30,10 @@ import {Form, Field} from 'vee-validate';
 import {http} from "../utils/http";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {useLoggedInStore} from "../store/isLoggedIn.js";
+import {useAnimalStore} from "../store/animal";
 
 const isLoggedInStore = useLoggedInStore();
+const animalStore = useAnimalStore();
 
 const router = useRouter();
 const user = reactive({});
@@ -37,6 +42,13 @@ const logout = () => {
     isLoggedInStore.logout();
     router.push('/login');
 }
+
+const resetAnimal = function (){
+    http.delete(`/animals/stats/${animalStore.animalId}`)
+    animalStore.removeAnimal();
+    router.push('animals/select');
+}
+
 defineExpose({logout});
 
 async function getUserData() {
@@ -59,7 +71,6 @@ onMounted(() => {
 }
 
 .buttons{
-    left: 50%;
     margin-top: 10px;
     margin-bottom: 10px;
     outline: 0;
@@ -76,11 +87,14 @@ onMounted(() => {
     text-overflow: ellipsis;
     transition: all .14s ease-out;
     white-space: nowrap;
-                
+
 }
 button:hover {
     box-shadow: 4px 4px 0 #323232;
     transform: translate(-4px,-4px);
+}
+.nagy{
+    margin: auto;
 }
 a{
     margin-top: 10px;
@@ -105,9 +119,6 @@ a:hover{
     box-shadow: 4px 4px 0 #323232;
     transform: translate(-4px,-4px);
 }
-#btnlogout{
-    width: 30%;
-}
 #email{
     width: 50%;
     text-align: center;
@@ -131,8 +142,5 @@ a:hover{
     background-color: #DDD0C8;
     border: 3px solid #d87e47;
     box-shadow: 5px 10px #d87e47;
-}
-.nagy{
-    width: 100%;
 }
 </style>
