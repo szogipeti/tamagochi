@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace Tamagochi
             InitializeComponent();
         }
 
-        private void ShowUsers_Click(object sender, RoutedEventArgs e)
+       public void ShowUsers_Click(object sender, RoutedEventArgs e)
         {
             felhasznalok.Items.Clear();
             foreach (var item in context.Users)
@@ -54,35 +55,48 @@ namespace Tamagochi
 
         private async void NewAnimal_Click(object sender, RoutedEventArgs e)
         {
-            var newanimal = "";
             if (name.Text == "")
             {
                 MessageBox.Show("Nem töltötte ki a mezőt!");
+                return;
             }
-            else
-            {
-                 newanimal = name.Text;
-            }
-            var json = JsonConvert.SerializeObject(newanimal);
+
+            var json = JsonConvert.SerializeObject(new { name = name.Text });
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = await client.PostAsync("http://localhost:8881/api/animals", new StringContent(json, Encoding.UTF8, "application/json"));
 
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Animal created successfully!");
+                    MessageBox.Show("Új állat létrehozva");
                 }
                 else
                 {
                     var errorResponse = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error creating animal: {errorResponse}");
+                    MessageBox.Show($"Sikertelen állat felvétel: {errorResponse}");
                 }
             }
         }
 
-        private void PasswordChancge_Click(object sender, RoutedEventArgs e)
+        private async void PasswordChancge_Click(object sender, RoutedEventArgs e)
         {
+            var json = JsonConvert.SerializeObject(new { id= user.Id , new_password = password.Text });
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = await client.PostAsync("http://localhost:8881/api/password", new StringContent(json, Encoding.UTF8, "application/json"));
 
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Új jelszó beállítva! ");
+                }
+                else
+                {
+                    var errorResponse = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Sikertelen jelszó csere: {errorResponse}");
+                }
+            }
         }
 
 

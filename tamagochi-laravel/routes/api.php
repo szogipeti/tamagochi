@@ -25,11 +25,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthController::class)->group(function (){
     Route::post('/login', 'login')->name('auth.login');
     Route::post('/register', 'register')->name('auth.register');
+    Route::post('/password', 'resetPassword')->name('auth.resetPassword');
     Route::middleware(["auth:sanctum"])->get('/profile', 'profile')->name('auth.profile');
     Route::middleware(["auth:sanctum"])->post('/logout','logout')->name('auth.logout');
 });
 
 Route::get('/animals', [AnimalController::class, 'index'])->name('animals.index');
+Route::post('/animals', [AnimalController::class, 'store'])->name('animals.store');
 Route::get('/animals/stats/{id}', [AnimalStatController::class, 'show'])->whereNumber('id')->name('animals.stats.show');
 
 Route::post('/animals/stats', [AnimalStatController::class, 'store'])->name('animals.stats.store');

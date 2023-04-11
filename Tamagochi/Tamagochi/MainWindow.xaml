@@ -37,6 +37,7 @@
                     <Label Margin="30 0 0 10">Felhasználó adatai</Label>
                     <Label Name="username"></Label>
                     <Label Name="email"></Label>
+                    <TextBox Name="password"></TextBox>
                     <Button Click="PasswordChancge_Click">Jelszó megváltoztatása</Button>
                 </StackPanel>
             </StackPanel>

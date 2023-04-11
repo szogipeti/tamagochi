@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\AnimalStatResource;
 use App\Models\AnimalStat;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreAnimalRequest;
-use App\Http\Requests\UpdateAnimalRequest;
+use App\Http\Requests\StoreAnimalStatRequest;
+use App\Http\Requests\UpdateAnimalStatRequest;
 
 class AnimalStatController extends Controller
 {
@@ -14,12 +14,12 @@ class AnimalStatController extends Controller
         return new AnimalStatResource(AnimalStat::findOrFail($id));
     }
 
-    public function store(StoreAnimalRequest $request){
+    public function store(StoreAnimalStatRequest $request){
         $validated = $request->validated();
         return new AnimalStatResource(AnimalStat::create($validated));
     }
 
-    public function update(UpdateAnimalRequest $request, $id){
+    public function update(UpdateAnimalStatRequest $request, $id){
         $validated = $request->validated();
 
 

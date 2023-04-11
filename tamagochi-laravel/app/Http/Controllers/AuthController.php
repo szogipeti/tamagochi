@@ -46,4 +46,20 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Sikeresen kijelentkezett.'], 200);
     }
+    public function resetPassword(Request $request)
+    {
+        # Validation
+        $request->validate([
+            'id' => 'required',
+            'new_password' => 'required',
+        ]);
+
+        #Update the new Password
+        User::whereId($request->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with("status", "Password changed successfully!");
+    }
+
 }
