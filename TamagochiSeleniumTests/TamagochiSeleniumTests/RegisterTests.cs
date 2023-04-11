@@ -90,7 +90,7 @@ public class RegisterTests
     }
 
     [TestMethod]
-    public void TestRegisterEmpty()
+    public void TestEmptyRegister()
     {
         IWebElement button = chromeDriver.FindElement(By.XPath("//*[@id=\"register\"]/form/button"));
         button.Click();
