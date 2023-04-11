@@ -20,5 +20,10 @@ namespace Tamagochi.Model
         public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<AnimalStat> AnimalStats { get; set; }
+
+        public override string ToString()
+        {
+            return Username;
+        }
     }
 }

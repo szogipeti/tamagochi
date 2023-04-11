@@ -29,15 +29,14 @@
                 </StackPanel>
                 <StackPanel Margin="10 50 0 10" Orientation="Vertical">
                     <Button Click="ShowUsers_Click">Felhasználók megjelenítése</Button>
-                    <ListBox x:Name="felhasznalok" Height="200"></ListBox>
+                    <ListBox x:Name="felhasznalok" Height="200" SelectionChanged="felhasznalok_SelectionChanged"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel  Orientation="Horizontal">
                 <StackPanel Width="400" Margin="50 10 10 10" Orientation="Vertical">
                     <Label Margin="30 0 0 10">Felhasználó adatai</Label>
                     <Label Name="username"></Label>
-                    <Label Name="email"> </Label>
-                    <Label Name="password"> </Label>
+                    <Label Name="email"></Label>
                     <Button Click="PasswordChancge_Click">Jelszó megváltoztatása</Button>
                 </StackPanel>
             </StackPanel>

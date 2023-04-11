@@ -35,27 +35,18 @@ namespace Tamagochi
         private void ShowUsers_Click(object sender, RoutedEventArgs e)
         {
             felhasznalok.Items.Clear();
-            foreach (var item in context.Users.Select(x=>x.Username))
+            foreach (var item in context.Users)
             {
                 felhasznalok.Items.Add(item);
             }
         }
 
-        private void SelectedUser(object sender, SelectionChangedEventArgs e)
-        {
-            user = ((ListBox)sender).SelectedItem as User;
-            if (user == null)
-            {
-                return;
-            }
-            ShowUserData(user);
-        }
 
         private void ShowUserData(User user)
         {
             username.Content = $"Felhasználónév: {user.Username}" ;
             email.Content = $"Email cím: {user.Email}";
-            password.Content = $"Felhasználónév: {user.Password}";
+
 
         }
 
@@ -92,6 +83,17 @@ namespace Tamagochi
         private void PasswordChancge_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+
+        private void felhasznalok_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            user = ((ListBox)sender).SelectedItem as User;
+            if (user == null)
+            {
+                return;
+            }
+            ShowUserData(user);
         }
     }
 }
