@@ -56,8 +56,8 @@ const age = ref(Math.ceil((Date.now() - Date.parse(props.created_at)) / (1000 * 
 
 <style scoped>
 div{
-    border: solid 3px #DDD0C8;
-    box-shadow: 5px 10px #DDD0C8 ;
+    border: solid 3px #323232;
+    box-shadow: 5px 10px #323232 ;
     background-color: #d49167;
     color: #323232;
 }

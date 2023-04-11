@@ -140,7 +140,7 @@ a:hover{
     margin-bottom: 30px;
     left: 15%;
     background-color: #DDD0C8;
-    border: 3px solid #d87e47;
-    box-shadow: 5px 10px #d87e47;
+    border: solid 3px #323232;
+    box-shadow: 5px 10px #323232 ;
 }
 </style>

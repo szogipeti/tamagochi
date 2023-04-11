@@ -106,8 +106,8 @@ h5{
 }
 #maindiv{
     background-color: #DDD0C8;
-    border: 3px solid #d87e47;
-    box-shadow: 5px 10px #d87e47;
+    border: solid 3px #323232;
+    box-shadow: 5px 10px #323232 ;
     border-radius: 0;
     margin-top: 20px;
 }
