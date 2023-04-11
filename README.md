@@ -1,6 +1,25 @@
-# Tamagochi
+# Tamagochi - Felhasználói dokumentáció
 
-## A weboldal beállítása
+A Tamagochi egy weboldal, melynek segítségével könnyen ki tudjuk magunkat kapcsolni. Létre tudunk hozni háziállatokat, melyeknek a szükségleteiről folyamatosan gondoskodnunk kell. Minden nap tudunk műveletekt végrehajtani, viszont figyelni kell arra, hogy minden szükséglet megfelelő állapotban van-e, hiszen a lépések száma korlátozott. A cél az, hogy minél tovább életben tartsuk a mi kis Tamagochinkat.
+
+A projekt tartalmaz egy asztali alkalmazást is, amely segítségével adminisztrációs műveleteket tudunk végrehajtani.
+
+## Weboldal
+
+### Rendszerkövetelmények
+
+#### Szükséges alkalmazások, beállítások:
+
+- Docker Desktop, amely letölthető a `https://docs.docker.com/desktop/`
+- WSL2 használatának engedélyezése
+- A számítógép BIOS-ában engedélyezni kell a virtualizációt
+
+Mivel a weboldal dockerizáltan működik, ezért a rendszerkövetelmémyek megfelelnek a Docker Desktop használatának minimális követelményeinek:
+- Windows 10 vagy 11 operációs rendszer
+- 64 bites processzor
+- Legalább 4 GB RAM
+
+### Telepítés
 
 1. Klónozzuk a projektet a `git clone https://github.com/szogipeti/tamagochi.git` paranccsal
 2. Futtassuk a Docker Desktop alkalmazást
@@ -29,3 +48,5 @@
 **A `start.sh` manuális végrehajtásához szükséges utasítások vége**
 
 Ezeket elvégezve minden szükséges függőséget telepítettünk. Utolsó lépés a Vite élő szerver elindítása, amit az `npm run dev` konténeren belül való kiadásával tudunk megtenni. Ezután elérhetjük a weboldalt a `http://localhost:8881` címen.
+
+## Asztali alkalmazás
