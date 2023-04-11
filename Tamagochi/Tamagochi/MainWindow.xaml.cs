@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,10 +32,10 @@ namespace Tamagochi
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ShowUsers_Click(object sender, RoutedEventArgs e)
         {
             felhasznalok.Items.Clear();
-            foreach (var item in context.Users)
+            foreach (var item in context.Users.Select(x=>x.Username))
             {
                 felhasznalok.Items.Add(item);
             }
@@ -57,9 +59,39 @@ namespace Tamagochi
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+       
+
+        private async void NewAnimal_Click(object sender, RoutedEventArgs e)
         {
-                
+            var newanimal = "";
+            if (name.Text == "")
+            {
+                MessageBox.Show("Nem töltötte ki a mezőt!");
+            }
+            else
+            {
+                 newanimal = name.Text;
+            }
+            var json = JsonConvert.SerializeObject(newanimal);
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsync("http://localhost:8881/api/animals", new StringContent(json, Encoding.UTF8, "application/json"));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Animal created successfully!");
+                }
+                else
+                {
+                    var errorResponse = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error creating animal: {errorResponse}");
+                }
+            }
+        }
+
+        private void PasswordChancge_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
