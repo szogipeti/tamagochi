@@ -7,15 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Animal_stat extends Model
 {
-    protected $fillable = ['user_id', 'animal_id', 'name', 'hunger', 'thirst', 'happiness', 'activity', 'health',
-        'dexterity', 'last_hunger', 'last_thirst', 'last_happiness', 'last_activity', 'last_health', 'last_dexterity'];
+    protected $fillable =
+        [
+            'user_id', 'animal_id', 'name', 'hunger', 'thirst', 'happiness',
+            'activity', 'health', 'dexterity', 'action_count', 'last_hunger', 'last_thirst',
+            'last_happiness', 'last_activity', 'last_health', 'last_dexterity', 'last_action'
+        ];
     protected $attributes = [
         'hunger' => 100,
         'thirst' => 100,
         'happiness' => 100,
         'activity' => 100,
         'health' => 100,
-        'dexterity' => 100
+        'dexterity' => 100,
+        'action_count' => 10
     ];
 
     public $timestamps = false;
@@ -32,6 +37,7 @@ class Animal_stat extends Model
             $model->last_activity = $model->created_at;
             $model->last_health = $model->created_at;
             $model->last_dexterity = $model->created_at;
+            $model->last_action = $model->created_at;
         });
     }
 

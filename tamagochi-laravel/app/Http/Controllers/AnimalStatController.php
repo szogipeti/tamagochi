@@ -22,6 +22,7 @@ class AnimalStatController extends Controller
     public function update(UpdateAnimalRequest $request, $id){
         $validated = $request->validated();
 
+
         $animal = Animal_stat::findOrFail($id);
         $animal->update($validated);
 

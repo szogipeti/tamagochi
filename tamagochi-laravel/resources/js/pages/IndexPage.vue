@@ -9,7 +9,7 @@
             <div class="col-3">
                 <stat-box :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
                           :happiness="animal.happiness" :activity="animal.activity" :health="animal.health"
-                          :dexterity="animal.dexterity" :created_at="animal.created_at"/>
+                          :dexterity="animal.dexterity" :created_at="animal.created_at" :action_count="animal.action_count"/>
             </div>
             <div class="col-9">
                 <activity-box @hunt="hunt" @play="play" @checkup="checkup" @medication="medication"/>
@@ -33,14 +33,23 @@ const animalStore = useAnimalStore();
 const animal = reactive({});
 const animalLoaded = ref(false)
 
+const formatDate = function (date){
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hour = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${day} ${hour}:${minutes}:${seconds}`
+}
+
 const hunt = function () {
-    const now = new Date();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const hour = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const date = `${now.getFullYear()}-${month}-${day} ${hour}:${minutes}:${seconds}`;
+    if(animal.action_count <= 0){
+        alert("Ma már nincs több lépésed!")
+        return;
+    }
+    animal.action_count--;
+
+    const date = formatDate(new Date());
 
     animal.hunger += 20;
     animal.last_hunger = date;
@@ -85,6 +94,12 @@ const getAnimal = async function () {
 }
 
 const updateStatsLastState = function () {
+    if(new Date().getDate() - new Date(animal.last_action).getDate() > 0){
+        animal.action_count = 10;
+        animal.last_action = formatDate(new Date())
+        http.put(`animals/stats/${animal.id}/update`, animal)
+    }
+
     const hungerDuration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 60 * 0.5));
     if (animal.hunger - hungerDuration > 0) {
         animal.hunger -= hungerDuration;
@@ -159,7 +174,6 @@ const thirstTimer = function () {
     }
 }
 
-
 const happinessTimer = function () {
     return new Promise(function () {
         if (happinessCountDown.value > 0) {
@@ -171,7 +185,6 @@ const happinessTimer = function () {
     });
 }
 
-
 const activityTimer = function () {
     return new Promise(function () {
         if (activityCountDown.value > 0) {
@@ -182,7 +195,6 @@ const activityTimer = function () {
         }
     });
 }
-
 
 const healthTimer = function () {
     return new Promise(function () {
