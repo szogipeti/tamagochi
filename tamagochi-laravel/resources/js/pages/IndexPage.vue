@@ -400,8 +400,8 @@ onMounted(() => {
     border-radius: 0;
     background-color: #DDD0C8;
     color: #323232;
-    border: solid 3px #d87e47;
-    box-shadow: 5px 5px #d87e47;
+    border: solid 3px #323232;
+    box-shadow: 5px 10px #323232 ;
 }
 
 router-link {

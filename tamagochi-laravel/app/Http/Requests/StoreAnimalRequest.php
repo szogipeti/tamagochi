@@ -29,4 +29,19 @@ class StoreAnimalRequest extends FormRequest
             'user_id' => 'required|exists:users,id'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'A név kitöltése kötelező!',
+            'name.string' => 'A névnek szövegnek kell lennie!',
+            'name.max' => 'A név maximum 25 karakter hosszú lehet!',
+
+            'animal_id.required' => 'Az állat kiválasztása kötelező!',
+            'animal_id.exists' => 'Az állatnak léteznie kell az adatbázisban!',
+
+            'user_id.required' => 'Csak bejelentkezett felhasználók tudnak háziállatokat létrehozni',
+            'user_id.exits' => 'Csak bejelentkezett felhasználók tudnak háziállatokat létrehozni'
+        ];
+    }
 }
