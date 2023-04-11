@@ -10,6 +10,6 @@ class Animal extends Model
     protected $fillable = ['name',];
     public $timestamps = false;
     public function animal(){
-        return $this->hasMany(Animal_stat::class,"animals_id",);
+        return $this->hasMany(AnimalStat::class,"animals_id",);
     }
 }

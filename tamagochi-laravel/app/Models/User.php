@@ -43,6 +43,6 @@ class User extends Authenticatable
     ];
 
     public function pet(){
-        return $this->hasOne(Animal_stat::class, 'user_id', 'id');
+        return $this->hasOne(AnimalStat::class, 'user_id', 'id');
     }
 }
