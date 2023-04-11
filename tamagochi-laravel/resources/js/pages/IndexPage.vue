@@ -55,22 +55,32 @@ const hunt = function () {
 
     const date = formatDate(new Date());
 
-    animal.hunger += 20;
-    animal.last_hunger = date;
-    if (animal.hunger > 100) {
-        animal.hunger = 100;
-    }
+    const random = Math.floor(1 + Math.random()  * 100);
+    const avg = (animal.happiness + animal.activity + animal.dexterity + animal.health) / 4
+    if(random < avg){
+        animal.hunger += 20;
+        animal.last_hunger = date;
+        if (animal.hunger > 100) {
+            animal.hunger = 100;
+        }
 
-    animal.happiness += 10;
-    animal.last_happiness = date;
-    if (animal.happiness > 100) {
-        animal.happiness = 100;
-    }
+        animal.happiness += 10;
+        animal.last_happiness = date;
+        if (animal.happiness > 100) {
+            animal.happiness = 100;
+        }
 
-    animal.dexterity += 15;
-    animal.last_dexterity = date;
-    if (animal.dexterity > 100) {
-        animal.dexterity = 100;
+        animal.dexterity += 15;
+        animal.last_dexterity = date;
+        if (animal.dexterity > 100) {
+            animal.dexterity = 100;
+        }
+    }else{
+        animal.movement += 20;
+        animal.last_movement = date;
+        if(animal.last_movement > 100){
+            animal.movement = 100;
+        }
     }
 
     http.put(`animals/stats/${animal.id}/update`, animal)
