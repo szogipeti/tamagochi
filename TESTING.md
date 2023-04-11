@@ -15,3 +15,11 @@
 
 
 ### Teszt adatok
+
+| Azonosító     | Felhasználónév | E-mail                | Jelszó    | Jelszó megerősítése |
+|---------------|----------------|-----------------------|-----------|---------------------|
+| REGISZTRÁCIÓ1 | gipszjakab     | gipszjakab@gmail.com  | jelszo123 | jelszo123           |
+| REGISZTRÁCIÓ2 | gipszjakab     | gipszjakab134         | jelszo123 | jelszo123           |
+| REGISZTRÁCIÓ3 | gipszjakab     | gipszjakab@gmail.com  | jelszo123 | jelszo1234          |
+| REGISZTRÁCIÓ4 | gipszjakab     | gipszjakab2@gmail.com | jelszo123 | jelszo123           |
+| REGISZTRÁCIÓ5 | gipszjakab2    | gipszjakab@gmail.com  | jelszo123 | jelszo123           |
