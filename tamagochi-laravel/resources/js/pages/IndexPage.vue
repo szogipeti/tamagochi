@@ -12,7 +12,7 @@
                           :dexterity="animal.dexterity" :created_at="animal.created_at" :action_count="animal.action_count"/>
             </div>
             <div class="col-9">
-                <activity-box @hunt="hunt" @play="play" @checkup="checkup" @medication="medication"/>
+                <activity-box @feed="feed" @drink="drink" @hunt="hunt" @play="play" @checkup="checkup" @medication="medication"/>
             </div>
         </div>
     </div>
@@ -50,6 +50,46 @@ const checkActionCount = function (){
     animal.action_count--;
 }
 
+const feed = function (){
+    checkActionCount();
+
+    const date = formatDate(new Date());
+
+    animal.hunger += 20;
+    animal.last_hunger = date;
+    if(animal.hunger > 100){
+        animal.hunger = 100;
+    }
+
+    animal.movement -= 10;
+    animal.last_movement = date;
+    if(animal.movement < 1){
+        animal.movement = 1;
+    }
+
+    animal.dexterity -= 10;
+    animal.last_dexterity = date;
+    if(animal.dexterity < 1){
+        animal.dexterity = 1;
+    }
+
+    http.put(`animals/stats/${animal.id}/update`, animal)
+}
+
+const drink = function (){
+    checkActionCount();
+
+    const date = formatDate(new Date());
+
+    animal.thirst += 20;
+    animal.last_thirst = date;
+    if(animal.thirst > 100){
+        animal.thirst = 100;
+    }
+
+    http.put(`animals/stats/${animal.id}/update`, animal)
+}
+
 const hunt = function () {
     checkActionCount();
 
@@ -57,6 +97,11 @@ const hunt = function () {
 
     const random = Math.floor(1 + Math.random()  * 100);
     const avg = (animal.happiness + animal.activity + animal.dexterity + animal.health) / 4
+
+    console.log(random)
+    console.log(avg)
+    console.log(random < avg)
+
     if(random < avg){
         animal.hunger += 20;
         animal.last_hunger = date;
@@ -76,10 +121,10 @@ const hunt = function () {
             animal.dexterity = 100;
         }
     }else{
-        animal.movement += 20;
-        animal.last_movement = date;
-        if(animal.last_movement > 100){
-            animal.movement = 100;
+        animal.activity += 20;
+        animal.last_activity = date;
+        if(animal.activity > 100){
+            animal.activity = 100;
         }
     }
 
@@ -135,8 +180,8 @@ const medication = function () {
 
     animal.happiness -= 20;
     animal.last_happiness = date;
-    if(animal.happiness > 100){
-        animal.happiness = 100;
+    if(animal.happiness < 1){
+        animal.happiness = 1;
     }
 
     http.put(`animals/stats/${animal.id}/update`, animal)

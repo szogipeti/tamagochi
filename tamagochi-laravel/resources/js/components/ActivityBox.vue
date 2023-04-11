@@ -3,6 +3,12 @@
     <img src="" alt="">
     <div class="container">
         <div class="row">
+            <div class="col-6">
+                <button @click="$emit('feed')" class="btn btn-primary">Etetés</button>
+            </div>
+            <div class="col-6">
+                <button @click="$emit('drink')" class="btn btn-primary">Itatás</button>
+            </div>
             <div class="col-3">
                 <button @click="$emit('hunt')" class="btn btn-primary">Vadászat</button>
             </div>
@@ -22,6 +28,8 @@
 
 <script setup>
 const emits = defineEmits([
+    'feed',
+    'drink',
     'hunt',
     'play',
     'checkup',
