@@ -20,7 +20,7 @@ class AuthController extends Controller
 
             return response()->json(new AuthResource(Auth::user(), 200));
         }
-        return response()->json(["data" => ["message" => "Invalid e-mail and/or password"]],401);
+        return response()->json(["data" => ["message" => "Hibás felhasználónév és/vagy jelszó!"]],401);
     }
 
 
@@ -30,7 +30,7 @@ class AuthController extends Controller
         $data["password"] = Hash::make($data["password"]);
         $user = User::create($data);
 
-        return response()->json(["data" => ["message" => "Successful registration!"]],201);
+        return response()->json(["data" => ["message" => "Sikeres regisztráció!"]],201);
 
 
     }
@@ -44,6 +44,6 @@ class AuthController extends Controller
         Auth::user()->tokens()->delete();
         auth()->logout();
 
-        return response()->json(['message' => 'Logged out successfully.'], 200);
+        return response()->json(['message' => 'Sikeresen kijelentkezett.'], 200);
     }
 }
