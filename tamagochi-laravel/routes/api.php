@@ -32,8 +32,9 @@ Route::controller(AuthController::class)->group(function (){
 
 Route::get('/animals', [AnimalController::class, 'index'])->name('animals.index');
 Route::post('/animals', [AnimalController::class, 'store'])->name('animals.store');
-Route::get('/animals/stats/{id}', [AnimalStatController::class, 'show'])->whereNumber('id')->name('animals.stats.show');
+Route::get('/animals/{od}', [AnimalController::class, 'show'])->whereNumber('id')->name('animals.store');
 
+Route::get('/animals/stats/{id}', [AnimalStatController::class, 'show'])->whereNumber('id')->name('animals.stats.show');
 Route::post('/animals/stats', [AnimalStatController::class, 'store'])->name('animals.stats.store');
 Route::put('/animals/stats/{id}/update', [AnimalStatController::class, 'update'])->whereNumber('id')->name('animals.stats.update');
 Route::delete('/animals/stats/{id}', [AnimalStatController::class, 'destroy'])->whereNumber('id')->name('animals.stats.destroy');

@@ -1,8 +1,11 @@
 <template>
-<div>
-    <img src="" alt="">
-    <div class="container p-3">
+    <div class="container p-3 my-3">
         <div class="row">
+            <div class="col" style="border-bottom: 1px solid black">
+                <img :src="image" class="img-fluid" alt="">
+            </div>
+        </div>
+        <div class="row pt-3">
             <div class="col-12 col-md-6">
                 <button @click="$emit('feed')" class="w-100 my-1">Etetés</button>
             </div>
@@ -23,10 +26,18 @@
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script setup>
+import {http} from '../utils/http';
+import {onMounted, ref} from 'vue';
+
+const props = defineProps({
+    animal_id:Number
+})
+
+const image = ref('');
+
 const emits = defineEmits([
     'feed',
     'drink',
@@ -35,6 +46,15 @@ const emits = defineEmits([
     'checkup',
     'medication'
 ])
+
+const getAnimalType = async function(){
+    const resp = await http.get(`animals/${props.animal_id}`);
+    image.value = resp.data.data.image;
+}
+
+onMounted(() => {
+    getAnimalType();
+})
 </script>
 
 <style scoped>
@@ -64,5 +84,10 @@ button{
 button:hover {
     box-shadow: 4px 4px 0 #323232;
     transform: translate(-4px,-4px);
+}
+img{
+    height: 300px;
+    margin: 10px auto;
+    display: block;
 }
 </style>

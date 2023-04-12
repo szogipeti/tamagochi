@@ -17,6 +17,7 @@ class AnimalStatResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            'animal_id' => $this->animal_id,
             'name' => $this->name,
             'hunger' => $this->hunger,
             'thirst' => $this->thirst,

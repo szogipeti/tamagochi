@@ -17,4 +17,8 @@ class AnimalController extends Controller
         $validated = $request->validated();
         return new AnimalResource(Animal::create($validated));
     }
+
+    public function show($id){
+        return new AnimalResource(Animal::findOrFail($id));
+    }
 }
