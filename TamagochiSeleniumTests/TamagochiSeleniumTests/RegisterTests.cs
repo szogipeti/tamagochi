@@ -27,29 +27,29 @@ public class RegisterTests
         process.WaitForExit();
     }
 
-    public void RegisterUser(string username, string email, string pwd, string pwdConf)
+    public void RegisterUser(string username, string email, string pwd, string pwdConf, ChromeDriver driver)
     {
-        IWebElement usernameElement = chromeDriver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[1]/input"));
-        IWebElement emailElement = chromeDriver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[2]/input"));
-        IWebElement pwdElement = chromeDriver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[3]/input"));
-        IWebElement pwdConfElement = chromeDriver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[4]/input"));
+        IWebElement usernameElement = driver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[1]/input"));
+        IWebElement emailElement = driver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[2]/input"));
+        IWebElement pwdElement = driver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[3]/input"));
+        IWebElement pwdConfElement = driver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[4]/input"));
         
         usernameElement.SendKeys(username);
         emailElement.SendKeys(email);
         pwdElement.SendKeys(pwd);
         pwdConfElement.SendKeys(pwdConf);
 
-        IWebElement button = chromeDriver.FindElement(By.XPath("//*[@id=\"register\"]/form/button"));
+        IWebElement button = driver.FindElement(By.XPath("//*[@id=\"register\"]/form/button"));
         button.Click();
     }
 
-    public void WaitForRegister()
+    public void WaitForRegister(ChromeDriver driver)
     {
         Stopwatch sw = new Stopwatch();
         sw.Start();
         while (sw.ElapsedMilliseconds <= 20000)
         {
-            if (chromeDriver.Url == "http://localhost:8881/#/login")
+            if (driver.Url == "http://localhost:8881/#/login")
             {
                 break;
             }
@@ -81,9 +81,9 @@ public class RegisterTests
     {
         LoadDatabase();
 
-        RegisterUser("gipszjakab", "gipszjakab@gmail.com", "jelszo123", "jelszo123");
+        RegisterUser("gipszjakab", "gipszjakab@gmail.com", "jelszo123", "jelszo123", chromeDriver);
         
-        WaitForRegister();
+        WaitForRegister(chromeDriver);
 
         Assert.AreEqual("http://localhost:8881/#/login", chromeDriver.Url);
         Assert.AreEqual("Bejelentkezés", chromeDriver.FindElement(By.XPath("//*[@id=\"login\"]/h3")).Text);
@@ -105,7 +105,7 @@ public class RegisterTests
     [TestMethod]
     public void TestInvalidEmailRegister()
     {
-        RegisterUser("gipszjakab", "gipszjakab134", "jelszo123", "jelszo123");
+        RegisterUser("gipszjakab", "gipszjakab134", "jelszo123", "jelszo123", chromeDriver);
 
         Assert.AreEqual("http://localhost:8881/#/register", chromeDriver.Url);
         Assert.AreEqual("Az e-mail formátuma nem megfelelő!", chromeDriver.FindElement(By.XPath("//*[@id=\"register\"]/form/div[2]/span")).Text);
@@ -114,7 +114,7 @@ public class RegisterTests
     [TestMethod]
     public void TestNotMatchingPasswordRegister()
     {
-        RegisterUser("gipszjakab", "gipszjakab@gmail.com", "jelszo123", "jelszo1234");
+        RegisterUser("gipszjakab", "gipszjakab@gmail.com", "jelszo123", "jelszo1234", chromeDriver);
         
         IWebElement button = chromeDriver.FindElement(By.XPath("//*[@id=\"register\"]/form/button"));
         button.Click();
@@ -128,11 +128,11 @@ public class RegisterTests
     {
         LoadDatabase();
         
-        RegisterUser("gipszjakab", "gipszjakab@gmail.com", "jelszo123", "jelszo123");
-        WaitForRegister();
+        RegisterUser("gipszjakab", "gipszjakab@gmail.com", "jelszo123", "jelszo123", chromeDriver);
+        WaitForRegister(chromeDriver);
         
         chromeDriver.Navigate().GoToUrl("http://localhost:8881/#/register");
-        RegisterUser("gipszjakab", "gipszjakab2@gmail.com", "jelszo123", "jelszo123");
+        RegisterUser("gipszjakab", "gipszjakab2@gmail.com", "jelszo123", "jelszo123", chromeDriver);
         
         WaitForInvalidRegister();
         
@@ -144,11 +144,11 @@ public class RegisterTests
     {
         LoadDatabase();
         
-        RegisterUser("gipszjakab", "gipszjakab@gmail.com", "jelszo123", "jelszo123");
-        WaitForRegister();
+        RegisterUser("gipszjakab", "gipszjakab@gmail.com", "jelszo123", "jelszo123", chromeDriver);
+        WaitForRegister(chromeDriver);
         
         chromeDriver.Navigate().GoToUrl("http://localhost:8881/#/register");
-        RegisterUser("gipszjakab2", "gipszjakab@gmail.com", "jelszo123", "jelszo123");
+        RegisterUser("gipszjakab2", "gipszjakab@gmail.com", "jelszo123", "jelszo123", chromeDriver);
         
         WaitForInvalidRegister();
 
