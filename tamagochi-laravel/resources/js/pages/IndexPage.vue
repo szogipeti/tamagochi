@@ -42,16 +42,19 @@ const formatDate = function (date){
     return `${date.getFullYear()}-${month}-${day} ${hour}:${minutes}:${seconds}`
 }
 
-const checkActionCount = function (){
+const tryToDoAction = function (){
     if(animal.action_count <= 0){
         alert("Ma már nincs több lépésed!")
-        return;
+        return false;
     }
     animal.action_count--;
+    return true;
 }
 
 const feed = function (){
-    checkActionCount();
+    if(!tryToDoAction()){
+        return;
+    }
 
     const date = formatDate(new Date());
 
@@ -77,8 +80,9 @@ const feed = function (){
 }
 
 const drink = function (){
-    checkActionCount();
-
+    if(!tryToDoAction()){
+        return;
+    }
     const date = formatDate(new Date());
 
     animal.thirst += 20;
@@ -91,7 +95,9 @@ const drink = function (){
 }
 
 const hunt = function () {
-    checkActionCount();
+    if(!tryToDoAction()){
+        return;
+    }
 
     const date = formatDate(new Date());
 
@@ -132,7 +138,9 @@ const hunt = function () {
 }
 
 const play = function () {
-    checkActionCount();
+    if(!tryToDoAction()){
+        return;
+    }
 
     const date = formatDate(new Date())
 
@@ -168,7 +176,9 @@ const checkup = function () {
 }
 
 const medication = function () {
-    checkActionCount();
+    if(!tryToDoAction()){
+        return;
+    }
 
     const date = formatDate(new Date())
 
