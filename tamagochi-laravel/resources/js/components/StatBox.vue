@@ -1,5 +1,5 @@
 <template>
-    <div class="p-3 m-3">
+    <div class="p-3 my-3">
         <h3>{{ props.name.charAt(0).toUpperCase() + props.name.slice(1) }} adatai</h3>
         <table class="table table-responsive">
             <tr>
@@ -70,5 +70,8 @@ tr:nth-child(odd){
 }
 tr:hover{
     background-color: #d87e47;
+}
+td{
+    padding: 5px 10px;
 }
 </style>

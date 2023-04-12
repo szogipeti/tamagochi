@@ -1,25 +1,25 @@
 <template>
 <div>
     <img src="" alt="">
-    <div class="container">
+    <div class="container p-3">
         <div class="row">
             <div class="col-12 col-md-6">
-                <button @click="$emit('feed')" class="w-100 my-3">Etetés</button>
+                <button @click="$emit('feed')" class="w-100 my-1">Etetés</button>
             </div>
             <div class="col-12 col-md-6">
-                <button @click="$emit('drink')" class="w-100 my-3">Itatás</button>
+                <button @click="$emit('drink')" class="w-100 my-1">Itatás</button>
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <button @click="$emit('hunt')" class=" w-100 my-3">Vadászat</button>
+                <button @click="$emit('hunt')" class=" w-100 my-1">Vadászat</button>
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <button @click="$emit('play')" class=" w-100 my-3">Játék</button>
+                <button @click="$emit('play')" class=" w-100 my-1">Játék</button>
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <button @click="$emit('checkup')" class=" w-100 my-3">Orvosi vizsgálat</button>
+                <button @click="$emit('checkup')" class=" w-100 my-1">Orvosi vizsgálat</button>
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <button @click="$emit('medication')" class=" w-100 my-3">Gyógyszeres kezelés</button>
+                <button @click="$emit('medication')" class=" w-100 my-1">Gyógyszeres kezelés</button>
             </div>
         </div>
     </div>
