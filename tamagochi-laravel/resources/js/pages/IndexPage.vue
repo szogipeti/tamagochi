@@ -6,12 +6,12 @@
     </div>
     <div class="container" v-else v-if="animalLoaded">
         <div class="row">
-            <div class="col-3">
+            <div class="col-12">
                 <stat-box :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
                           :happiness="animal.happiness" :activity="animal.activity" :health="animal.health"
                           :dexterity="animal.dexterity" :created_at="animal.created_at" :action_count="animal.action_count"/>
             </div>
-            <div class="col-9">
+            <div class="col-12 ">
                 <activity-box @feed="feed" @drink="drink" @hunt="hunt" @play="play" @checkup="checkup" @medication="medication"/>
             </div>
         </div>

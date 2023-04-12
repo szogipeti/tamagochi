@@ -1,8 +1,8 @@
 <template>
-    <div id="maindiv" class="card mx-auto" style="width: 50em">
+    <div id="maindiv" class="card mx-md-auto" style="max-width: 50em; margin: 40px">
         <h5>Hozd létre a kezdő állatodat!</h5>
         <Form @submit="createAnimal" :validation-schema="schema">
-            <div class="mx-auto" style="width: 40em">
+            <div class="mx-auto" style="max-width: 40em; padding: 0 40px">
                 <div class="form-group my-3">
                     <label class="form-label" for="name">Név:</label>
                     <Field class="form-control" placeholder="pl.: Gombóc" type="string" name="name" />

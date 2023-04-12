@@ -3,22 +3,22 @@
     <img src="" alt="">
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <button @click="$emit('feed')" class="w-100 my-3">Etetés</button>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <button @click="$emit('drink')" class="w-100 my-3">Itatás</button>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-6 col-xxl-3">
                 <button @click="$emit('hunt')" class=" w-100 my-3">Vadászat</button>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-6 col-xxl-3">
                 <button @click="$emit('play')" class=" w-100 my-3">Játék</button>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-6 col-xxl-3">
                 <button @click="$emit('checkup')" class=" w-100 my-3">Orvosi vizsgálat</button>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-6 col-xxl-3">
                 <button @click="$emit('medication')" class=" w-100 my-3">Gyógyszeres kezelés</button>
             </div>
         </div>
@@ -53,8 +53,7 @@ button{
     border: 1px solid #323232;
     border-radius: 0;
     cursor: pointer;
-    display: inline-flex;
-    font-size: 20px;
+    font-size: 18px;
     overflow: hidden;
     padding: 12px 16px;
     text-decoration: none;

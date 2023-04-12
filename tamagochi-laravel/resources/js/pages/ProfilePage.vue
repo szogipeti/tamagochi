@@ -1,25 +1,21 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div id="profdiv">
-                <Form class="fromdata">
-                    <font-awesome-icon class="profile" icon="fa-solid fa-circle-user" />
-                    <h1 class="profile">{{ user.username }}</h1>
-                    <p id="email" class="mx-auto">Email: {{ user.email }}</p>
-                    <div class="nagy mx-auto">
-                        <button v-if="animalStore.animalId !== null" class="buttons mx-auto d-block" @click="resetAnimal">
-                        Háziállat visszaállítása
-                        </button>
-                        <router-link v-else class="buttons mx-auto d-block" to="/animals/select" style="width: 275px">
-                            Háziállat létrehozása
-                        </router-link>
-                    </div>
-                    <div class=" nagy mx-auto">
-                        <button id="btnlogout" class="buttons mx-auto d-block" @click="logout">Kijelentkezés</button>
-                    </div>
-                </Form>
+    <div id="profdiv">
+        <Form class="fromdata">
+            <font-awesome-icon class="profile" icon="fa-solid fa-circle-user" />
+            <h1 class="profile">{{ user.username }}</h1>
+            <p id="email" class="mx-auto d-block w-75">Email: {{ user.email }}</p>
+            <div class="nagy mx-auto">
+                <button v-if="animalStore.animalId !== null" class="buttons mx-auto d-block" @click="resetAnimal">
+                Háziállat visszaállítása
+                </button>
+                <router-link v-else class="buttons mx-auto d-block" to="/animals/select" style="width: 275px">
+                    Háziállat létrehozása
+                </router-link>
             </div>
-        </div>
+            <div class=" nagy mx-auto">
+                <button id="btnlogout" class="buttons mx-auto d-block" @click="logout">Kijelentkezés</button>
+            </div>
+        </Form>
     </div>
 </template>
 
@@ -80,7 +76,7 @@ onMounted(() => {
     border-radius: 0;
     cursor: pointer;
     display: inline-flex;
-    font-size: 20px;
+    font-size: 18px;
     overflow: hidden;
     padding: 12px 16px;
     text-decoration: none;
@@ -95,6 +91,7 @@ button:hover {
 }
 .nagy{
     margin: auto;
+    text-align: center;
 }
 a{
     margin-top: 10px;
@@ -107,7 +104,7 @@ a{
     border-radius: 0;
     cursor: pointer;
     display: inline-flex;
-    font-size: 20px;
+    font-size: 18px;
     overflow: hidden;
     padding: 12px 16px;
     text-decoration: none;
@@ -122,7 +119,7 @@ a:hover{
 #email{
     width: 50%;
     text-align: center;
-    font-size: 150%;
+    font-size: 125%;
     background-color: #DDD0C8;
     border: 2px solid #d49167;
     margin-bottom: 20px;
@@ -136,9 +133,7 @@ a:hover{
     margin-top: 10px;
 }
 #profdiv{
-    margin-top: 20px;
-    margin-bottom: 30px;
-    left: 15%;
+    margin: 20px 40px 30px 40px;
     background-color: #DDD0C8;
     border: solid 3px #323232;
     box-shadow: 5px 10px #323232 ;
