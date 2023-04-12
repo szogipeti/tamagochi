@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Animal extends Model
 {
-    protected $fillable = ['name',];
+    protected $fillable = ['name', 'image'];
     public $timestamps = false;
     public function animal(){
         return $this->hasMany(AnimalStat::class,"animals_id",);
