@@ -9,6 +9,7 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.WebSockets;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,11 +32,31 @@ namespace Tamagochi
     /// </summary>
     public partial class MainWindow : Window
     {
-        laravelContext context = new laravelContext();
-        User user = new ();
+        private laravelContext context = new laravelContext();
+        private User user = new ();
+        private string token;
         public MainWindow()
         {
             InitializeComponent();
+            LoginAsAdmin();
+        }
+        private async void LoginAsAdmin()
+        {
+            var json = JsonConvert.SerializeObject(new {
+                email = "tamagochi@gmail.com",
+                password = "1nimda"
+            });
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("http://localhost:8881/api/login", content);
+                var stringResponse = await response.Content.ReadAsStringAsync();
+                token = JObject.Parse(stringResponse)["token"].ToString();
+            }
+
+            sp_loginWait.Visibility = Visibility.Collapsed;
+            grid_main.Visibility = Visibility.Visible;
         }
 
        public void ShowUsers_Click(object sender, RoutedEventArgs e)
@@ -85,8 +106,9 @@ namespace Tamagochi
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("http://localhost:8881/api/animals", new StringContent(json, Encoding.UTF8, "application/json"));
+                var response = await client.PostAsync("http://localhost:8881/api/animals", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -136,6 +158,7 @@ namespace Tamagochi
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await client.PostAsync("http://localhost:8881/api/password", new StringContent(json, Encoding.UTF8, "application/json"));
 
                 if (response.IsSuccessStatusCode)

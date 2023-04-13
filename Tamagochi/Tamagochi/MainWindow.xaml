@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
     <StackPanel Margin="20">
-        <Grid>
+        <StackPanel Name="sp_loginWait">
+            <Label Content="Várj amíg az alkalmazás bejelentkezik!" FontSize="24" HorizontalAlignment="Center" />
+        </StackPanel>
+        <Grid Name="grid_main" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
