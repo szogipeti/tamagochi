@@ -42,6 +42,18 @@ public static class CommonTasks
         IWebElement button = driver.FindElement(By.XPath("//*[@id=\"login\"]/form/button"));
         button.Click();
     }
+
+    public static void CreateAnimal(string animalName, ChromeDriver driver)
+    {
+        driver.FindElement(By.XPath("//*[@id=\"maindiv\"]/form/div/div[1]/input")).SendKeys(animalName);
+        driver.FindElement(By.XPath("//*[@id=\"type\"]")).Click();
+        
+        string selectOptionXPath = "//*[@id=\"type\"]/option[2]";
+        WaitForElementLoading(selectOptionXPath, driver);
+        driver.FindElement(By.XPath(selectOptionXPath)).Click();
+        
+        driver.FindElement(By.XPath("//*[@id=\"maindiv\"]/form/button")).Click();
+    }
     
     public static void WaitForPageLoading(string url, ChromeDriver driver)
     {
