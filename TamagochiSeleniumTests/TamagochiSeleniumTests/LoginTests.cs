@@ -14,48 +14,26 @@ public class LoginTests
         chromeDriver.Manage().Window.Maximize();
         chromeDriver.Navigate().GoToUrl("http://localhost:8881/#/login");
     }
-    private void LoadDatabase()
-    {
-        Process process = new Process();
-        process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-        process.StartInfo.FileName = "cmd.exe";
-        process.StartInfo.WorkingDirectory = Path.GetFullPath("../../../../../tamagochi-laravel");
-        process.StartInfo.Arguments = "/C docker compose exec app php artisan migrate:fresh --seed";
-        process.Start();
-        process.WaitForExit();
-    }
     private void OldUser(string user, string email, string pw, string pwc, ChromeDriver driver)
     {
-        LoadDatabase();
+        CommonTasks.LoadDatabase();
         chromeDriver.Navigate().GoToUrl("http://localhost:8881/#/register");
         RegisterTests reg = new RegisterTests();
         Thread.Sleep(200);
-        reg.RegisterUser(user, email, pw, pwc, chromeDriver);
-        reg.WaitForRegister(chromeDriver);
+        CommonTasks.RegisterUser(user, email, pw, pwc, chromeDriver);
+        CommonTasks.WaitForPageLoading("http://localhost:8881/#/login", chromeDriver);
 
     }
-    public void WaitForLogin(ChromeDriver driver)
-    {
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-        while (sw.ElapsedMilliseconds <= 20000)
-        {
-            if (driver.Url == "http://localhost:8881/#/animals/select")
-            {
-                break;
-            }
-        }
-        sw.Stop();
-    }
+    
     [TestMethod]
     public void LoginNewUser()
     {
-        LoadDatabase();
+        CommonTasks.LoadDatabase();
         chromeDriver.Navigate().GoToUrl("http://localhost:8881/#/register");
         RegisterTests reg = new RegisterTests();
         Thread.Sleep(200);
-        reg.RegisterUser("kapitany", "kapitany@gmail.com", "kapika", "kapika", chromeDriver);
-        reg.WaitForRegister(chromeDriver);
+        CommonTasks.RegisterUser("kapitany", "kapitany@gmail.com", "kapika", "kapika", chromeDriver);
+        CommonTasks.WaitForPageLoading("http://localhost:8881/#/login", chromeDriver);
 
         IWebElement emailElement = chromeDriver.FindElement(By.XPath("//*[@id=\"login\"]/form/div[1]/input"));
         IWebElement passwordElement = chromeDriver.FindElement(By.XPath("//*[@id=\"login\"]/form/div[2]/input"));
@@ -92,7 +70,7 @@ public class LoginTests
 
         IWebElement button = chromeDriver.FindElement(By.XPath("//*[@id=\"login\"]/form/button"));
         button.Click();
-        WaitForLogin(chromeDriver);
+        CommonTasks.WaitForPageLoading("http://localhost:8881/#/animals/select", chromeDriver);
 
         Assert.AreEqual("http://localhost:8881/#/animals/select", chromeDriver.Url);
     }
@@ -100,7 +78,7 @@ public class LoginTests
     [TestMethod]
     public void TestEmptyLogin()
     {
-        LoadDatabase();
+        CommonTasks.LoadDatabase();
         IWebElement button = chromeDriver.FindElement(By.XPath("//*[@id=\"login\"]/form/button"));
         button.Click();
 
