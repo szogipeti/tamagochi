@@ -46,6 +46,10 @@
 
 ## Táblák
 
+### Adatbázis diagram
+
+![Adatbázis diagram](/tamagochi_db.drawio.png)
+
 ### Állatok - animals
 
 | Mező  | Adattípus       | Leírás                              | Tulajdonságok    |
