@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class StoreAnimalRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreAnimalRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Gate::forUser($this->user('sanctum'))->allows('create-animalType');
     }
 
     /**
@@ -24,16 +25,22 @@ class StoreAnimalRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:animals|string|max:50',
+            'image' => 'required|string|max:50'
         ];
     }
 
     public function messages()
     {
         return [
-//            'name.required' => 'A név kitöltése kötelező!',
-//            'name.string' => 'A névnek szövegnek kell lennie!',
-//            'name.max' => 'A név maximum 25 karakter hosszú lehet!',
+            'name.required' => 'A név kitöltése kötelező!',
+            'name.string' => 'A névnek szövegnek kell lennie!',
+            'name.max' => 'A név maximum :max karakter hosszú lehet!',
+            'name.unique' => 'Már létezik ilyen nevű állat!' ,
+
+            'image.required' => 'A kép nevének kitöltése kötelező!',
+            'image.string' => 'A kép nevének szövegnek kell lennie!',
+            'image.max' => 'A kép neve maximum :max karakter hosszú lehet!',
         ];
     }
 }

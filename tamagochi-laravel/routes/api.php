@@ -25,18 +25,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthController::class)->group(function (){
     Route::post('/login', 'login')->name('auth.login');
     Route::post('/register', 'register')->name('auth.register');
-    Route::post('/password', 'resetPassword')->name('auth.resetPassword');
+    Route::middleware(["auth:sanctum"])->post('/password', 'resetPassword')->name('auth.resetPassword');
     Route::middleware(["auth:sanctum"])->get('/profile', 'profile')->name('auth.profile');
     Route::middleware(["auth:sanctum"])->post('/logout','logout')->name('auth.logout');
 });
 
-Route::get('/animals', [AnimalController::class, 'index'])->name('animals.index');
-Route::post('/animals', [AnimalController::class, 'store'])->name('animals.store');
-Route::get('/animals/{od}', [AnimalController::class, 'show'])->whereNumber('id')->name('animals.store');
+Route::controller(AnimalController::class)->group(function (){
+    Route::get('/animals', 'index')->name('animals.index');
+    Route::post('/animals', 'store')->name('animals.store');
+    Route::get('/animals/{id}', 'show')->whereNumber('id')->name('animals.show');
+});
 
-Route::get('/animals/stats/{id}', [AnimalStatController::class, 'show'])->whereNumber('id')->name('animals.stats.show');
-Route::post('/animals/stats', [AnimalStatController::class, 'store'])->name('animals.stats.store');
-Route::put('/animals/stats/{id}/update', [AnimalStatController::class, 'update'])->whereNumber('id')->name('animals.stats.update');
-Route::delete('/animals/stats/{id}', [AnimalStatController::class, 'destroy'])->whereNumber('id')->name('animals.stats.destroy');
+Route::controller(AnimalStatController::class)->middleware("auth:sanctum")->group(function (){
+    Route::get('/animals/stats/{id}', 'show')->whereNumber('id')->name('animals.stats.show');
+    Route::post('/animals/stats', 'store')->name('animals.stats.store');
+    Route::put('/animals/stats/{id}/update', 'update')->whereNumber('id')->name('animals.stats.update');
+    Route::delete('/animals/stats/{id}', 'destroy')->whereNumber('id')->name('animals.stats.destroy');
+});
 
 Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');

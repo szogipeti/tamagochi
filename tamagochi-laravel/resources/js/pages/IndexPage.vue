@@ -43,16 +43,22 @@ const formatDate = function (date){
     return `${date.getFullYear()}-${month}-${day} ${hour}:${minutes}:${seconds}`
 }
 
-const checkActionCount = function (){
+const tryToDoAction = function (){
     if(animal.action_count <= 0){
         alert("Ma már nincs több lépésed!")
-        return;
+        return false;
     }
     animal.action_count--;
+    return true;
 }
 
 const feed = function (){
-    checkActionCount();
+
+    if(!tryToDoAction()){
+        return;
+    }
+
+
     const date = formatDate(new Date());
 
     animal.hunger += 20;
@@ -73,12 +79,13 @@ const feed = function (){
         animal.dexterity = 1;
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const drink = function (){
-    checkActionCount();
-
+    if(!tryToDoAction()){
+        return;
+    }
     const date = formatDate(new Date());
 
     animal.thirst += 20;
@@ -87,11 +94,13 @@ const drink = function (){
         animal.thirst = 100;
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const hunt = function () {
-    checkActionCount();
+    if(!tryToDoAction()){
+        return;
+    }
 
     const date = formatDate(new Date());
 
@@ -128,11 +137,13 @@ const hunt = function () {
         }
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const play = function () {
-    checkActionCount();
+    if(!tryToDoAction()){
+        return;
+    }
 
     const date = formatDate(new Date())
 
@@ -160,7 +171,7 @@ const play = function () {
         animal.activity = 100;
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const checkup = function () {
@@ -168,7 +179,9 @@ const checkup = function () {
 }
 
 const medication = function () {
-    checkActionCount();
+    if(!tryToDoAction()){
+        return;
+    }
 
     const date = formatDate(new Date())
 
@@ -184,11 +197,14 @@ const medication = function () {
         animal.happiness = 1;
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const getAnimal = async function () {
-    const resp = await http.get(`/animals/stats/${animalStore.animalId}`)
+    const headers = {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+    const resp = await http.get(`/animals/stats/${animalStore.animalId}`, { headers })
     for (const key in resp.data.data) {
         animal[key] = resp.data.data[key]
     }
@@ -202,7 +218,7 @@ const updateStatsLastState = function () {
     if(new Date().getDate() - new Date(animal.last_action).getDate() > 0){
         animal.action_count = 10;
         animal.last_action = formatDate(new Date())
-        http.put(`animals/stats/${animal.id}/update`, animal)
+        updateAnimal();
     }
 
     const hungerDuration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 60 * 0.5));
@@ -210,32 +226,73 @@ const updateStatsLastState = function () {
     if (animal.hunger - hungerDuration > 0 && age<300) {
 
         animal.hunger -= hungerDuration;
+    }else{
+        animal.hunger = 0;
+        animalDied('hunger')
     }
 
     const thirstDuration = Math.floor((new Date() - Date.parse(animal.last_thirst)) / (1000 * 60 * 60 * 0.5))
     if (animal.thirst - thirstDuration >  0 && age >100 && age<300 ) {
         animal.thirst -= thirstDuration;
+    }else{
+        animal.thirst = 0;
+        animalDied('thirst')
     }
 
     const happinessDuration = Math.floor((new Date() - Date.parse(animal.last_happiness)) / (1000 * 60 * 60 * 1.5))
     if (animal.happiness - happinessDuration > 0 && age >199 && age <300) {
         animal.happiness -= happinessDuration;
+    }else{
+        animal.happiness = 0;
     }
 
     const activityDuration = Math.floor((new Date() - Date.parse(animal.last_activity)) / (1000 * 60 * 60 * 1.5))
     if (animal.activity - activityDuration > 0 && age >199 && age <300) {
         animal.activity -= activityDuration;
+    }else{
+        animal.activity = 0;
     }
 
     const healthDuration = Math.floor((new Date() - Date.parse(animal.last_health)) / (1000 * 60 * 60 * 2))
     if (animal.health - healthDuration > 0 && age >100 && age<300) {
         animal.health -= healthDuration;
+    }else{
+        animal.health = 0;
+        animalDied('health')
     }
 
     const dexterityDuration = Math.floor((new Date() - Date.parse(animal.last_dexterity)) / (1000 * 60 * 60 * 2))
     if (animal.dexterity - dexterityDuration > 0 && age >199 && age <300) {
         animal.dexterity -= dexterityDuration;
+    }else{
+        animal.dexterity = 0;
     }
+}
+
+const updateAnimal = function (){
+    const headers = {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+    http.put(`animals/stats/${animal.id}/update`, animal, { headers })
+}
+
+const animalDied = function (diedFrom){
+    switch (diedFrom){
+        case 'hunger':
+            window.alert(`${animal.name} éhen halt. Hozz létre egy új háziállatot!`)
+            break;
+        case 'thirst':
+            window.alert(`${animal.name} szomjan halt. Hozz létre egy új háziállatot!`)
+            break;
+        case 'health':
+            window.alert(`${animal.name} meghalt betegségben. Hozz létre egy új háziállatot!`)
+            break;
+        default:
+            window.alert(`${animal.name} meghalt. Hozz létre egy új háziállatot!`)
+    }
+
+    animalStore.removeAnimal();
+    router.push({name: 'animals/select'})
 }
 
 const minuteTimeout = 1000 * 60;
@@ -409,25 +466,6 @@ watch(dexterityCountDown, (newDexterityCountDown) => {
         dexterityTimer();
     }
 })
-
-const loseStats = function () {
-    animal.hunger--;
-    animal.thirst--;
-    animal.happiness--;
-    animal.activity--;
-    animal.health--;
-    animal.dexterity--;
-
-    const body = {
-        'hunger': animal.hunger,
-        'thirst': animal.thirst,
-        'happiness': animal.happiness,
-        'activity': animal.activity,
-        'health': animal.health,
-        'dexterity': animal.dexterity
-    }
-    http.put(`/animals/stats/${animalStore.animalId}/update`, body)
-}
 
 onMounted(() => {
     getAnimal().then(() =>{
