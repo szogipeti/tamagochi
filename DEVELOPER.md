@@ -59,6 +59,7 @@
 | Mező           | Adattípus       | Leírás                                                | Tulajdonságok                            |
 |----------------|-----------------|-------------------------------------------------------|------------------------------------------|
 | id             | Unsigned Bigint | Egyedi azonosító (elsődleges kulcs)                   | Egyedi                                   |
+| user_id        | Unsigned Bigint | Állat azonosítója (idegen kulcs: users - id)          |                                          |
 | animal_id      | Unsigned Bigint | Állat azonosítója (idegen kulcs: animals - id)        |                                          |
 | name           | String          | Állat neve                                            | Max. 25 karakter                         |
 | hunger         | Integer         | Az állat éhség adata                                  |                                          |
