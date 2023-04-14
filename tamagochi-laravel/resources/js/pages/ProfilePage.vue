@@ -40,7 +40,6 @@ const logout = () => {
 }
 
 const resetAnimal = function (){
-    http.delete(`/animals/stats/${animalStore.animalId}`)
     animalStore.removeAnimal();
     router.push('animals/select');
 }

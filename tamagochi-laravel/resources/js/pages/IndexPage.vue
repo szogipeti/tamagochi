@@ -206,32 +206,66 @@ const updateStatsLastState = function () {
     const hungerDuration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 60 * 0.5));
     if (animal.hunger - hungerDuration > 0) {
         animal.hunger -= hungerDuration;
+    }else{
+        animal.hunger = 0;
+        animalDied('hunger')
     }
 
     const thirstDuration = Math.floor((new Date() - Date.parse(animal.last_thirst)) / (1000 * 60 * 60 * 0.5))
     if (animal.thirst - thirstDuration > 0) {
         animal.thirst -= thirstDuration;
+    }else{
+        animal.thirst = 0;
+        animalDied('thirst')
     }
 
     const happinessDuration = Math.floor((new Date() - Date.parse(animal.last_happiness)) / (1000 * 60 * 60 * 1.5))
     if (animal.happiness - happinessDuration > 0) {
         animal.happiness -= happinessDuration;
+    }else{
+        animal.happiness = 0;
     }
 
     const activityDuration = Math.floor((new Date() - Date.parse(animal.last_activity)) / (1000 * 60 * 60 * 1.5))
     if (animal.activity - activityDuration > 0) {
         animal.activity -= activityDuration;
+    }else{
+        animal.activity = 0;
     }
 
     const healthDuration = Math.floor((new Date() - Date.parse(animal.last_health)) / (1000 * 60 * 60 * 2))
     if (animal.health - healthDuration > 0) {
         animal.health -= healthDuration;
+    }else{
+        animal.health = 0;
+        animalDied('health')
     }
 
     const dexterityDuration = Math.floor((new Date() - Date.parse(animal.last_dexterity)) / (1000 * 60 * 60 * 2))
     if (animal.dexterity - dexterityDuration > 0) {
         animal.dexterity -= dexterityDuration;
+    }else{
+        animal.dexterity = 0;
     }
+}
+
+const animalDied = function (diedFrom){
+    switch (diedFrom){
+        case 'hunger':
+            window.alert(`${animal.name} éhen halt. Hozz létre egy új háziállatot!`)
+            break;
+        case 'thirst':
+            window.alert(`${animal.name} szomjan halt. Hozz létre egy új háziállatot!`)
+            break;
+        case 'health':
+            window.alert(`${animal.name} meghalt betegségben. Hozz létre egy új háziállatot!`)
+            break;
+        default:
+            window.alert(`${animal.name} meghalt. Hozz létre egy új háziállatot!`)
+    }
+
+    animalStore.removeAnimal();
+    router.push({name: 'animals/select'})
 }
 
 const minuteTimeout = 1000 * 60;
