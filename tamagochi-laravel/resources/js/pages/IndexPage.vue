@@ -9,10 +9,10 @@
             <div class="col-12 col-md-4 col-xl-3">
                 <stat-box :name="animal.name" :hunger="animal.hunger" :thirst="animal.thirst"
                           :happiness="animal.happiness" :activity="animal.activity" :health="animal.health"
-                          :dexterity="animal.dexterity" :created_at="animal.created_at" :action_count="animal.action_count"/>
+                          :dexterity="animal.dexterity" :age="age" :action_count="animal.action_count "/>
             </div>
             <div class="col-12 col-md-8 col-xl-9">
-                <activity-box @feed="feed" @drink="drink" @hunt="hunt" @play="play" @checkup="checkup" @medication="medication" :animal_id="animal.animal_id"/>
+                <activity-box @feed="feed" @drink="drink" @hunt="hunt" @play="play" @checkup="checkup" @medication="medication" :age="age" :animal_id="animal.animal_id"/>
             </div>
         </div>
     </div>
@@ -29,6 +29,7 @@ import ActivityBox from "../components/ActivityBox.vue";
 
 const loggedIn = useLoggedInStore();
 const animalStore = useAnimalStore();
+const age = ref(0);
 
 const animal = reactive({});
 const animalLoaded = ref(false)
@@ -52,9 +53,11 @@ const tryToDoAction = function (){
 }
 
 const feed = function (){
+
     if(!tryToDoAction()){
         return;
     }
+
 
     const date = formatDate(new Date());
 
@@ -206,7 +209,9 @@ const getAnimal = async function () {
         animal[key] = resp.data.data[key]
     }
     updateStatsLastState();
+    age.value = Math.ceil((Date.now() - Date.parse(animal.created_at)) / (1000 * 60 * 60 * 24));
     animalLoaded.value = true;
+
 }
 
 const updateStatsLastState = function () {
@@ -217,7 +222,9 @@ const updateStatsLastState = function () {
     }
 
     const hungerDuration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 60 * 0.5));
-    if (animal.hunger - hungerDuration > 0) {
+
+    if (animal.hunger - hungerDuration > 0 && age<300) {
+
         animal.hunger -= hungerDuration;
     }else{
         animal.hunger = 0;
@@ -225,7 +232,7 @@ const updateStatsLastState = function () {
     }
 
     const thirstDuration = Math.floor((new Date() - Date.parse(animal.last_thirst)) / (1000 * 60 * 60 * 0.5))
-    if (animal.thirst - thirstDuration > 0) {
+    if (animal.thirst - thirstDuration >  0 && age >100 && age<300 ) {
         animal.thirst -= thirstDuration;
     }else{
         animal.thirst = 0;
@@ -233,21 +240,21 @@ const updateStatsLastState = function () {
     }
 
     const happinessDuration = Math.floor((new Date() - Date.parse(animal.last_happiness)) / (1000 * 60 * 60 * 1.5))
-    if (animal.happiness - happinessDuration > 0) {
+    if (animal.happiness - happinessDuration > 0 && age >199 && age <300) {
         animal.happiness -= happinessDuration;
     }else{
         animal.happiness = 0;
     }
 
     const activityDuration = Math.floor((new Date() - Date.parse(animal.last_activity)) / (1000 * 60 * 60 * 1.5))
-    if (animal.activity - activityDuration > 0) {
+    if (animal.activity - activityDuration > 0 && age >199 && age <300) {
         animal.activity -= activityDuration;
     }else{
         animal.activity = 0;
     }
 
     const healthDuration = Math.floor((new Date() - Date.parse(animal.last_health)) / (1000 * 60 * 60 * 2))
-    if (animal.health - healthDuration > 0) {
+    if (animal.health - healthDuration > 0 && age >100 && age<300) {
         animal.health -= healthDuration;
     }else{
         animal.health = 0;
@@ -255,7 +262,7 @@ const updateStatsLastState = function () {
     }
 
     const dexterityDuration = Math.floor((new Date() - Date.parse(animal.last_dexterity)) / (1000 * 60 * 60 * 2))
-    if (animal.dexterity - dexterityDuration > 0) {
+    if (animal.dexterity - dexterityDuration > 0 && age >199 && age <300) {
         animal.dexterity -= dexterityDuration;
     }else{
         animal.dexterity = 0;
@@ -296,14 +303,51 @@ const happinessCountDown = ref(0);
 const activityCountDown = ref(0);
 const healthCountDown = ref(0);
 const dexterityCountDown = ref(0);
+const hungerCount = ref(0);
+const thirstCount = ref(0);
+const happinessCount = ref(0);
+const activityCount = ref( 0);
+const healthCount = ref(0);
+const dexterityCount = ref(0);
 
+
+const Counter = function (){
+    if (age<100)
+    {
+        hungerCount.value = 20;
+        activityCount.value = 120;
+        thirstCount.value = 90;
+        happinessCount.value = 90;
+        dexterityCount.value = 60;
+    }
+    else  if(age<200)
+    {
+        hungerCount.value = 40;
+        activityCount.value = 100;
+        thirstCount.value = 90;
+        happinessCount.value = 90;
+        dexterityCount.value = 60;
+        healthCount.value = 130;
+    }
+    else if (age<300)
+    {
+        hungerCount.value = 40;
+        activityCount.value = 100;
+        thirstCount.value = 90;
+        dexterityCount.value = 60;
+        healthCount.value = 130;
+    }
+
+
+}
 const startTimers = function () {
-    hungerCountDown.value = 30 - Math.round((new Date() - Date.parse(animal.last_hunger)) / minuteTimeout) % 30;
-    thirstCountDown.value = 30 - Math.round(((new Date() - Date.parse(animal.last_thirst)) / minuteTimeout)) % 30;
-    happinessCountDown.value = 90 - Math.round(((new Date() - Date.parse(animal.last_happiness)) / minuteTimeout)) % 90;
-    activityCountDown.value = 90 - Math.round(((new Date() - Date.parse(animal.last_activity)) / minuteTimeout)) % 90;
-    healthCountDown.value = 120 - Math.round(((new Date() - Date.parse(animal.last_health)) / minuteTimeout)) % 120;
-    healthCountDown.value = 60 - Math.round(((new Date() - Date.parse(animal.last_dexterity)) / minuteTimeout)) % 60;
+    hungerCountDown.value = hungerCount - Math.round((new Date() - Date.parse(animal.last_hunger)) / minuteTimeout) % hungerCount;
+    thirstCountDown.value = thirstCount - Math.round(((new Date() - Date.parse(animal.last_thirst)) / minuteTimeout)) % thirstCount;
+    happinessCountDown.value = happinessCount - Math.round(((new Date() - Date.parse(animal.last_happiness)) / minuteTimeout)) % happinessCount;
+    activityCountDown.value = activityCount - Math.round(((new Date() - Date.parse(animal.last_activity)) / minuteTimeout)) % activityCount;
+    dexterityCountDown.value = dexterityCount - Math.round(((new Date() - Date.parse(animal.last_dexterity)) / minuteTimeout)) % dexterityCount;
+    healthCountDown.value = healthCount - Math.round(((new Date() - Date.parse(animal.last_health)) / minuteTimeout)) % healthCount;
+
 
     hungerTimer();
     thirstTimer();
@@ -356,7 +400,7 @@ const activityTimer = function () {
 const healthTimer = function () {
     return new Promise(function () {
         if (healthCountDown.value > 0) {
-            setTimeout(() => {
+            setTimeout(() => {s
                 healthCountDown.value--;
                 healthTimer()
             }, minuteTimeout)
@@ -424,7 +468,10 @@ watch(dexterityCountDown, (newDexterityCountDown) => {
 })
 
 onMounted(() => {
-    getAnimal().then(() => startTimers());
+    getAnimal().then(() =>{
+        Counter()
+        startTimers()
+    });
 })
 
 

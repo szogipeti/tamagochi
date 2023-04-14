@@ -38,6 +38,8 @@
 <script setup>
 import {ref} from "vue";
 
+
+
 const props = defineProps({
     name: String,
     hunger: Number,
@@ -46,11 +48,12 @@ const props = defineProps({
     activity: Number,
     health: Number,
     dexterity: Number,
-    created_at: String,
-    action_count: Number
+    action_count: Number,
+    age: Number
 })
 
-const age = ref(Math.ceil((Date.now() - Date.parse(props.created_at)) / (1000 * 60 * 60 * 24)));
+
+
 
 </script>
 

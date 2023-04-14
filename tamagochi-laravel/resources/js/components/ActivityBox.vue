@@ -7,22 +7,22 @@
         </div>
         <div class="row pt-3">
             <div class="col-12 col-md-6">
-                <button @click="$emit('feed')" class="w-100 my-1">Etetés</button>
+                <button @click="$emit('feed')" :disabled="age>=300" class="w-100 my-1">Etetés</button>
             </div>
             <div class="col-12 col-md-6">
-                <button @click="$emit('drink')" class="w-100 my-1">Itatás</button>
+                <button @click="$emit('drink')" :disabled="age>=300" class="w-100 my-1">Itatás</button>
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <button @click="$emit('hunt')" class=" w-100 my-1">Vadászat</button>
+                <button  @click="$emit('hunt')" :disabled="age<100" class=" w-100 my-1">Vadászat</button>
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <button @click="$emit('play')" class=" w-100 my-1">Játék</button>
+                <button @click="$emit('play')" :disabled="age>200&&age<300" class=" w-100 my-1">Játék</button>
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <button @click="$emit('checkup')" class=" w-100 my-1">Orvosi vizsgálat</button>
+                <button @click="$emit('checkup')" :disabled="age<100||age>=300" class=" w-100 my-1">Orvosi vizsgálat</button>
             </div>
             <div class="col-12 col-md-6 col-xxl-3">
-                <button @click="$emit('medication')" class=" w-100 my-1">Gyógyszeres kezelés</button>
+                <button @click="$emit('medication')"  :disabled="age<100||age>=300" class=" w-100 my-1">Gyógyszeres kezelés</button>
             </div>
         </div>
     </div>
@@ -31,9 +31,11 @@
 <script setup>
 import {http} from '../utils/http';
 import {onMounted, ref} from 'vue';
+import {number} from "yup";
 
 const props = defineProps({
-    animal_id:Number
+    animal_id:Number,
+    age: Number
 })
 
 const image = ref('');
