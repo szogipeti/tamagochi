@@ -76,7 +76,7 @@ const feed = function (){
         animal.dexterity = 1;
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const drink = function (){
@@ -91,7 +91,7 @@ const drink = function (){
         animal.thirst = 100;
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const hunt = function () {
@@ -134,7 +134,7 @@ const hunt = function () {
         }
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const play = function () {
@@ -168,7 +168,7 @@ const play = function () {
         animal.activity = 100;
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const checkup = function () {
@@ -194,11 +194,14 @@ const medication = function () {
         animal.happiness = 1;
     }
 
-    http.put(`animals/stats/${animal.id}/update`, animal)
+    updateAnimal();
 }
 
 const getAnimal = async function () {
-    const resp = await http.get(`/animals/stats/${animalStore.animalId}`)
+    const headers = {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+    const resp = await http.get(`/animals/stats/${animalStore.animalId}`, { headers })
     for (const key in resp.data.data) {
         animal[key] = resp.data.data[key]
     }
@@ -210,7 +213,7 @@ const updateStatsLastState = function () {
     if(new Date().getDate() - new Date(animal.last_action).getDate() > 0){
         animal.action_count = 10;
         animal.last_action = formatDate(new Date())
-        http.put(`animals/stats/${animal.id}/update`, animal)
+        updateAnimal();
     }
 
     const hungerDuration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 60 * 0.5));
@@ -257,6 +260,13 @@ const updateStatsLastState = function () {
     }else{
         animal.dexterity = 0;
     }
+}
+
+const updateAnimal = function (){
+    const headers = {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+    http.put(`animals/stats/${animal.id}/update`, animal, { headers })
 }
 
 const animalDied = function (diedFrom){
@@ -412,25 +422,6 @@ watch(dexterityCountDown, (newDexterityCountDown) => {
         dexterityTimer();
     }
 })
-
-const loseStats = function () {
-    animal.hunger--;
-    animal.thirst--;
-    animal.happiness--;
-    animal.activity--;
-    animal.health--;
-    animal.dexterity--;
-
-    const body = {
-        'hunger': animal.hunger,
-        'thirst': animal.thirst,
-        'happiness': animal.happiness,
-        'activity': animal.activity,
-        'health': animal.health,
-        'dexterity': animal.dexterity
-    }
-    http.put(`/animals/stats/${animalStore.animalId}/update`, body)
-}
 
 onMounted(() => {
     getAnimal().then(() => startTimers());

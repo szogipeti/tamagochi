@@ -77,7 +77,10 @@ const createAnimal = async function(animalData){
     };
 
     try {
-        const resp = await http.post('/animals/stats', body)
+        const headers = {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+        const resp = await http.post('/animals/stats', body, { headers })
         animal.setAnimal(resp.data.data.id);
     } catch (e){
         const errorMessages = e.response.data.errors

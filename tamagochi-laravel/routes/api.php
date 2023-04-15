@@ -36,7 +36,7 @@ Route::controller(AnimalController::class)->group(function (){
     Route::get('/animals/{id}', 'show')->whereNumber('id')->name('animals.show');
 });
 
-Route::controller(AnimalStatController::class)->group(function (){
+Route::controller(AnimalStatController::class)->middleware("auth:sanctum")->group(function (){
     Route::get('/animals/stats/{id}', 'show')->whereNumber('id')->name('animals.stats.show');
     Route::post('/animals/stats', 'store')->name('animals.stats.store');
     Route::put('/animals/stats/{id}/update', 'update')->whereNumber('id')->name('animals.stats.update');
