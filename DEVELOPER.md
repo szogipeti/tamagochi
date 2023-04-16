@@ -96,6 +96,103 @@
 | created_at        | Timestamp       | Létrehozás időbélyege                 |               |
 | updated_at        | Timestamp       | Módosítás időbélyege                  |               |
 
+
+
+
+Recipe
+
+URL for model: /recipes Controller: RecipeController
+Name 	HTTP method 	Parameter of URL 	Action 	Description 	Requirements
+recipes.index 	GET 		index 	Gets all recipes 	
+recipes.show 	GET 	/{id} - number 	show 	Gets one recipe 	
+recipes.store 	POST 		store 	Creates new recipe 	Authenticated
+recipes.update 	PUT 	/{id} - number 	update 	Updates one recipe 	Authenticated
+recipes.destroy 	DELETE 	/{id} - number 	destroy 	Deletes one recipe 	Authenticated
+
+
+### Rest API
+
+Base URL: https://localhost:8881/api/
+
+# Auth
+
+Controller: AuthController
+
+| Name              | HTTP method     | Parameter of URL                      | Action 		| Description 					   | Requirements |
+|-------------------|-----------------|---------------------------------------|-------------| ---------------------------------|--------------|
+| auth.login        | POST            |/login							      | index  		| Sends login request      		   |			  |
+| auth.register     | POST            | /register                        	  | show   		| Sends register request      	   |		 	  |
+| auth.profile      | GET             | /profile 	                          | show   		| Gets details of logged in profile|Authenticated |
+| auth.logout       | POST            | /logout 							  | show   		| Sends logout request    		   |Authenticated | 
+| auth.resetPassword| POST            |/password                      		  |resetPassword| Chnage user password             |Authenticated |
+
+AuthResource
+
+    username
+    token
+
+#User
+
+URL for model: /useres Controller: UserController
+
+| Name              | HTTP method     | Parameter of URL                      | Action 		| Description 					   |
+|-------------------|-----------------|---------------------------------------|-------------| ---------------------------------|
+| users.show        | GET             |/{id} - number					      | show  		| Gets one user		      		   |
+
+UserResource
+
+    id
+    username
+
+#Animal
+
+URL for model: /animals Controller: AnimalController
+
+| Name              | HTTP method     | Parameter of URL                      | Action 		| Description 					   |
+|-------------------|-----------------|---------------------------------------|-------------| ---------------------------------|
+| animals.index     | GET             | 								      | index  		| Gets all animals	    		   |
+| animals.store     | POST            | 			                     	  | store   	| Sends register request      	   |
+| animals.show      | GET             | /{id} - number                        | show   		| Gets one animal 	  			   |
+
+AnimalResource
+
+id
+name
+image
+
+#AnimalStat
+
+URL for model: /animals/stats Controller: AnimalStatController
+
+| Name              	| HTTP method     | Parameter of URL                      | Action 		| Description 					   | Requirements |
+|-----------------------|-----------------|---------------------------------------|-------------| ---------------------------------|--------------|
+| animals.stats.show    | GET             |/{id}- number					      | show  		| Gets one animal	    		   | 			  |
+| animals.stats.store   | POST            | 			                     	  | store   	| Creates new animal      	   	   |Authenticated |
+| animals.stats.update  | PUT             | /{id}/update  - number                | update   	| Updates one animal 	  		   |Authenticated |
+| animals.stats.destroy | DELETE          | /{id}	- number	                  | destroy   	| Deletes one animal 	  		   |Authenticated |
+
+AnimalStatResource
+
+id
+user_id
+animal_id
+name
+hunger
+thirst
+happiness
+activity
+health
+dexterity
+action_count
+last_hunger
+last_thirst
+last_happiness
+last_activity
+last_health
+last_dexterity
+last_action
+created_at
+
 ## Források
 
 - https://megaport.hu/media/25454/cartoon-tigers-transparent-png-tigrisek-meserajz
