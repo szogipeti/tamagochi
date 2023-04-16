@@ -223,21 +223,29 @@ const updateStatsLastState = function () {
 
     const hungerDuration = Math.floor((new Date() - Date.parse(animal.last_hunger)) / (1000 * 60 * 60 * 0.5));
 
-    if (animal.hunger - hungerDuration > 0 && age<300) {
+    if(age<300)
+    {
+        if (animal.hunger - hungerDuration > 0 ) {
 
-        animal.hunger -= hungerDuration;
-    }else{
-        animal.hunger = 0;
-        animalDied('hunger')
+            animal.hunger -= hungerDuration;
+        }else{
+            animal.hunger = 0;
+            animalDied('hunger')
+        }
     }
+
 
     const thirstDuration = Math.floor((new Date() - Date.parse(animal.last_thirst)) / (1000 * 60 * 60 * 0.5))
-    if (animal.thirst - thirstDuration >  0 && age >100 && age<300 ) {
-        animal.thirst -= thirstDuration;
-    }else{
-        animal.thirst = 0;
-        animalDied('thirst')
+    if (age >100 && age<300)
+    {
+        if (animal.thirst - thirstDuration >  0) {
+            animal.thirst -= thirstDuration;
+        }else{
+            animal.thirst = 0;
+            animalDied('thirst')
+        }
     }
+
 
     const happinessDuration = Math.floor((new Date() - Date.parse(animal.last_happiness)) / (1000 * 60 * 60 * 1.5))
     if (animal.happiness - happinessDuration > 0 && age >199 && age <300) {
@@ -252,14 +260,18 @@ const updateStatsLastState = function () {
     }else{
         animal.activity = 0;
     }
-
     const healthDuration = Math.floor((new Date() - Date.parse(animal.last_health)) / (1000 * 60 * 60 * 2))
-    if (animal.health - healthDuration > 0 && age >100 && age<300) {
-        animal.health -= healthDuration;
-    }else{
-        animal.health = 0;
-        animalDied('health')
+    if ( age >100 && age<300)
+    {
+        if (animal.health - healthDuration > 0) {
+            animal.health -= healthDuration;
+        }else{
+            animal.health = 0;
+            animalDied('health')
+        }
     }
+
+
 
     const dexterityDuration = Math.floor((new Date() - Date.parse(animal.last_dexterity)) / (1000 * 60 * 60 * 2))
     if (animal.dexterity - dexterityDuration > 0 && age >199 && age <300) {
